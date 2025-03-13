@@ -190,7 +190,7 @@ export const Header: React.FC = () => {
                   "header__item" + (isActive ? "header__item--active" : "")
                 }
               >
-                Profile
+                Stats
               </NavLink>
               <NavLink
                 to={`/friends`}
