@@ -35,7 +35,7 @@
 
 @theme {
   --font-fredoka: "Fredoka", "sans serif";
-  --font-heading: "Nunito", "sans serif";
+  --font-nunito: "Nunito", "sans serif";
   --font-special: "BubblegumSans", "sans serif";
 
   --color-*: initial;
@@ -51,9 +51,13 @@
   --color-neutral-900: oklch(0.97 0.001 106.424);
   --color-neutral-950: oklch(0.985 0.001 106.423);
 
+  --drop-shadow-3xl: 0 35px 35px rgba(255, 0, 0, 0.25); 
+
   /* green, blue and yellow */
-  --color-primary-50: oklch(97.31% 0.1624 144.21);
-  --color-primary-100: oklch(69.91% 0.157 238.99);
+  /* --color-primary-50: oklch(97.31% 0.1624 144.21); */
+  /* --color-primary-100: oklch(69.91% 0.157 238.99); */
+  --color-primary-50: oklch(90% 0.15 144);
+  --color-primary-100: oklch(60% 0.18 240);
   --color-primary-200: oklch(84.42% 0.172159 84.9338);
 
   --color-secondary-50: oklch(43.6% 0.148366 142.4953);
@@ -129,13 +133,15 @@
     --color-neutral-950: oklch(0.147 0.004 49.25);
 
     /* green, blue and yellow */
-    --color-primary-50: oklch(24.88% 0.0414 144);
-    --color-primary-100: oklch(42.17% 0.1569 259.91);
+    /* --color-primary-50: oklch(24.88% 0.0414 144);
+    --color-primary-100: oklch(42.17% 0.1569 259.91); */
+    --color-primary-50: oklch(28% 0.05 144);
+    --color-primary-100: oklch(38% 0.18 260);
     --color-primary-200: oklch(78.39% 0.1719 68.09);
 
     --color-secondary-50: oklch(98.98% 0.0288 102.67);
     --color-secondary-100: oklch(42.54% 0.1159 144.31);
-    --color-secondary-200: oklch(37.91% 0 0);
+    --color-secondary-200: oklch(38.35% 0.0908 250.36);
     --color-secondary-300: oklch(24.78% 0 0);
 
     /* orange, purple, pink */
@@ -199,9 +205,33 @@
     /* @apply bg-background text-foreground;          */
   } 
 
+  h1 {
+    @apply font-special text-2xl text-center
+  }
+
   .button {
     @apply bg-primary-200 font-special rounded-lg text-secondary-200 px-4 py-1 my-2 shadow-md
   }
+
+  /* css-1ll44ll-MuiOutlinedInput-notchedOutline */
+  .MuiOutlinedInput-notchedOutline, .MuiInputBase-input, .MuiOutlinedInput-input, .MuiFormLabel-root, .MuiInputLabel-root, .Mui-disabled {
+    @apply !border-ok-100 !text-ok-100 !font-fredoka
+  }
+
+  .MuiAvatar-root {
+    @apply !bg-ok-500/95 !p-4 shadow-md shadow-info-800/90 
+  }
+
+  .MuiButtonBase-root, .MuiButton-root{
+    @apply !font-special !flex !items-center
+  }
+
+  /* .Mui-disabled {
+    @apply !text-ok-100
+  } */
+  /* .MuiAvatar-img {
+    @apply bg-clip-content bg-transparent shadow-md 
+  } */
 }
 
 /* .card {

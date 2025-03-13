@@ -1,6 +1,6 @@
 // src/components/ThemeToggle.tsx
 import React, { useEffect } from "react";
-import useThemeStore from "../stores/themeStore";
+import { useThemeStore } from "../stores/themeStore";
 
 type ThemeToggleProps = {
   darkIcon: React.ReactNode;

@@ -85,7 +85,7 @@ const ProfileHeader = () => {
   };
 
   return (
-    <div className="flex justify-between flex-col items-center text-center px-4 py-8 gap-4">
+    <div className="flex justify-between flex-col items-center text-center px-4 py-8 gap-6">
       <h1 className="text-2xl font-special">
         Welcome to your profile,{" "}
         {player?.user_metadata?.username ||
@@ -101,7 +101,7 @@ const ProfileHeader = () => {
         }
         alt={player?.full_name}
         className="font-special"
-        sx={{ width: 144, height: 144 }}
+        sx={{ width: 216, height: 216 }}
       >
         {!player?.avatar_url && player?.user_metadata?.full_name
           ? player.user_metadata.full_name

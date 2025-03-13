@@ -20,7 +20,7 @@ const getInitialTheme = (): Theme => {
   return "light";
 };
 
-const useThemeStore = create<ThemeStore>()(
+export const useThemeStore = create<ThemeStore>()(
   persist(
     (set) => ({
       theme: getInitialTheme(),
@@ -34,4 +34,4 @@ const useThemeStore = create<ThemeStore>()(
   )
 );
 
-export default useThemeStore;
+// export default useThemeStore;

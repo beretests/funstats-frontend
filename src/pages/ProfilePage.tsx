@@ -1,45 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAuthStore } from "../stores/authStore";
-// import { useAlertStore } from "../stores/alertStore";
 import ProfileHeader from "../components/Profile/ProfileHeader";
 import ProfileDetails from "../components/Profile/ProfileDetails";
 import { getProfileData } from "../services/profileService";
 import ProfileForm from "../components/Profile/ProfileForm";
+import { useLoadingStore } from "../stores/loadingStore";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const ProfilePage: React.FC = () => {
-  const { user, updateUser, setUser } = useAuthStore();
-
-  const [profileData, setProfileData] = useState({});
+  const { user, setUser } = useAuthStore();
+  const { isLoading, setLoading } = useLoadingStore();
 
   useEffect(() => {
     const fetchProfileData = async () => {
+      setLoading(true);
       try {
         const data = await getProfileData(user.id);
-        if (JSON.stringify(data) !== JSON.stringify(profileData)) {
-          updateUser(data); // Update global store only if necessary
-          setProfileData(data); // Update local state only if necessary
-        }
+        setUser({ ...user, ...data });
       } catch (error) {
         console.error("Error fetching profile data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProfileData();
-
-    console.log(profileData);
-  }, [user.id, profileData]);
-  // setUser({ ...user, ...profileData });
-
-  // if (profileData) {
-  //   updateUser(profileData);
-  // }
+  }, []);
 
   return (
-    <>
-      <ProfileHeader />
-      <ProfileDetails />
-      <ProfileForm />
-    </>
+    <div className="text-info-300">
+      {isLoading ? (
+        <div className="flex justify-center items-center h-screen">
+          <CircularProgress />
+        </div>
+      ) : (
+        <>
+          <ProfileHeader />
+          <ProfileDetails />
+          <ProfileForm />
+        </>
+      )}
+    </div>
   );
 };
 

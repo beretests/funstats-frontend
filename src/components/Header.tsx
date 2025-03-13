@@ -4,8 +4,9 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import { ThemeToggle } from "./ThemeToggle";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
+import { useThemeStore } from "../stores/themeStore";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import Box from "@mui/material/Box";
@@ -16,17 +17,16 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import PeopleIcon from "@mui/icons-material/People";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import { useAlertStore } from "../stores/alertStore";
 import { supabase } from "../services/supabase";
 
-type HeaderProps = {};
-
-export const Header: React.FC<HeaderProps> = () => {
-  // const navigate = useNavigate();
-  const { isAuthenticated, user, session, removeSession } = useAuthStore();
+export const Header: React.FC = () => {
+  const { isAuthenticated, user, removeSession, username } = useAuthStore();
   const showAlert = useAlertStore((state) => state.showAlert);
+  const { theme } = useThemeStore();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -61,12 +61,20 @@ export const Header: React.FC<HeaderProps> = () => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List className="w-full bg-accent-200">
-        <ListItem component={NavLink} to="/">
+        <ListItem component={NavLink} to="/profile">
           <ListItemButton>
             <ListItemIcon>
               <ManageAccountsIcon />
             </ListItemIcon>
             <ListItemText primary="Profile" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem component={NavLink} to="/stats">
+          <ListItemButton>
+            <ListItemIcon>
+              <QueryStatsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Stats" />
           </ListItemButton>
         </ListItem>
         <ListItem component={NavLink} to="/friends">
@@ -100,17 +108,24 @@ export const Header: React.FC<HeaderProps> = () => {
   const anchor = "top";
 
   return (
-    <header className="bg-primary-100 min-h-12 flex justify-between px-2 py-2 items-center shadow-md">
+    <header className="bg-primary-100 min-h-12 flex justify-between px-2 py-2 items-center shadow-md md:px-8">
       <div className="flex items-center gap-1 md:gap-2">
         <Link to="/">
           <img
-            src="/funstats-logo-dimgray.png"
+            src={
+              theme === "dark"
+                ? "/funstats-logo-dark.png"
+                : "/funstats-logo-light.png"
+            }
             alt="FunStats Logo"
             width={30}
             height={30}
+            className="rounded-full shadow-xs hover:scale-110 transition-transform duration-300 ease-in-out drop-shadow-2xl"
           />
         </Link>
-        <h1 className="font-special text-2xl text-primary-200">FunStats</h1>
+        <h1 className="drop-shadow-3xl font-special bg-gradient-to-r from-accent-100 to-primary-200 bg-clip-text text-2xl text-transparent pt-2 ">
+          FunStats
+        </h1>
       </div>
 
       {/* Mobile Menu */}
@@ -150,17 +165,19 @@ export const Header: React.FC<HeaderProps> = () => {
       </div>
 
       {/* Desktop Menu */}
-      <div className="hidden md:flex gap-2">
+      <div className="hidden md:flex gap-2 items-center">
         <ThemeToggle
           darkIcon={<DarkModeIcon className="w-4 h-4" />}
           lightIcon={<LightModeIcon className="w-4 h-4" />}
         />
         {isAuthenticated ? (
-          <div className="flex items-center gap-4">
-            <span className="text-accent-50">Hi, {user?.full_name}</span>
+          <div className="flex items-center gap-4 text-accent-100 font-bold font-special">
+            <span className="text-accent-50 mr-4 font-bold font-nunito">
+              Hi, {username}
+            </span>
             <>
               <NavLink
-                to={`/player/`}
+                to={`/profile`}
                 className={(isActive) =>
                   "header__item" + (isActive ? "header__item--active" : "")
                 }
@@ -168,7 +185,15 @@ export const Header: React.FC<HeaderProps> = () => {
                 Profile
               </NavLink>
               <NavLink
-                to={`/player//friends`}
+                to={`/stats`}
+                className={(isActive) =>
+                  "header__item" + (isActive ? "header__item--active" : "")
+                }
+              >
+                Profile
+              </NavLink>
+              <NavLink
+                to={`/friends`}
                 className={(isActive) =>
                   "header__item" + (isActive ? "header__item--active" : "")
                 }

@@ -5,6 +5,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { User } from "@supabase/supabase-js";
+import { useLocation } from "react-router-dom";
 // import { useAlertStore } from "./alertStore";
 
 type AuthState = {
@@ -59,6 +60,7 @@ export const useAuthStore = create<AuthState>()(
 
 export const AuthSubscriber = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { session, setSession, removeSession } = useAuthStore();
   // const showAlert = useAlertStore((state) => state.showAlert);
 
@@ -73,8 +75,11 @@ export const AuthSubscriber = () => {
           if (session) {
             setSession(session);
             // Redirect only if not already on a protected route
-            navigate("/profile", { replace: true });
+            // navigate("/profile", { replace: true });
             // showAlert("success", "You are logged in!");
+            if (location.pathname === "/" || location.pathname === "/login") {
+              navigate("/profile", { replace: true });
+            }
           }
           break;
 
@@ -105,22 +110,23 @@ export const AuthSubscriber = () => {
           console.warn(`Unhandled auth event type: ${event}`);
       }
 
-      // Set up API authorization header dynamically
-      if (session) {
-        api.interceptors.request.use(
-          async (config) => {
-            const token = session.access_token;
-            config.headers.Authorization = `Bearer ${token}`;
-            return config;
-          },
-          (error) => Promise.reject(error)
-        );
-      }
+      // // Set up API authorization header dynamically
+      // if (session) {
+      //   api.interceptors.request.use(
+      //     async (config) => {
+      //       const token = session.access_token;
+      //       config.headers.Authorization = `Bearer ${token}`;
+      //       return config;
+      //     },
+      //     (error) => Promise.reject(error)
+      //   );
+      // }
     };
 
     // Subscribe to Supabase auth state changes
-    const { data } = supabase.auth.onAuthStateChange(handleAuthChange);
-
+    // const { data } = supabase.auth.onAuthStateChange(handleAuthChange);
+    supabase.auth.onAuthStateChange(handleAuthChange);
+    // console.log("Supabase on auth change:", data);
     // return () => {
     //   // Unsubscribe on cleanup
     //   data.subscription.unsubscribe();

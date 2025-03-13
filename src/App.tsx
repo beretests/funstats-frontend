@@ -10,6 +10,11 @@ import Header from "./components/Header";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
+import FriendsPage from "./pages/FriendsPage";
+import StatsPage from "./pages/StatsPage";
+import LeaderboardPage from "./pages/LeaderboardPage";
+import AddStatstPage from "./pages/AddStatstPage";
+import StatTrendsPage from "./pages/StatTrendsPage";
 import AlertSnackbar from "./components/AlertSnackbar";
 
 const App: React.FC = () => {
@@ -23,8 +28,13 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route element={<ProtectedRoute redirectTo="/login" />}>
+            <Route element={<ProtectedRoute redirectTo="/" />}>
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/friends" element={<FriendsPage />} />
+              <Route path="/stats" element={<StatsPage />} />
+              <Route path="/stat-trends" element={<StatTrendsPage />} />
+              <Route path="/stats/add" element={<AddStatstPage />} />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
             </Route>
           </Routes>
         </LocalizationProvider>

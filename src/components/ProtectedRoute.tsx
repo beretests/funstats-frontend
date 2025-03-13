@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthStore } from "../stores/authStore"; // Adjust path as needed
+import { useAuthStore } from "../stores/authStore";
+import { useAlertStore } from "../stores/alertStore";
 
 type ProtectedRouteProps = {
   children?: React.ReactNode;
@@ -9,16 +10,19 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
-  redirectTo = "/login",
+  redirectTo = "/",
 }) => {
   const { isAuthenticated } = useAuthStore();
+  const showAlert = useAlertStore((state) => state.showAlert);
 
   if (!isAuthenticated) {
-    // Redirect to login if not authenticated
+    showAlert(
+      "warning",
+      "You must be logged in to view this information. Click the 'Get Started' button to log in."
+    );
     return <Navigate to={redirectTo} replace />;
   }
 
-  // Render children or nested routes (if using <Outlet>)
   return children ? <>{children}</> : <Outlet />;
 };
 
