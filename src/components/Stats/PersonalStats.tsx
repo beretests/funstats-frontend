@@ -37,8 +37,8 @@ interface GameStats {
 }
 
 const PersonalStats: React.FC = () => {
-  const { seasons, selectedSeason, setSelectedSeason } = useSeasonStore();
-  const { user, username = "User" } = useAuthStore();
+  const { selectedSeason } = useSeasonStore();
+  const { user } = useAuthStore();
   const { isLoading, setLoading } = useLoadingStore();
   const showAlert = useAlertStore((state) => state.showAlert);
   const [stats, setStats] = useState<GameStats>({

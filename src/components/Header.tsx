@@ -24,7 +24,7 @@ import { useAlertStore } from "../stores/alertStore";
 import { supabase } from "../services/supabase";
 
 export const Header: React.FC = () => {
-  const { isAuthenticated, user, removeSession, username } = useAuthStore();
+  const { isAuthenticated, removeSession, username } = useAuthStore();
   const showAlert = useAlertStore((state) => state.showAlert);
   const { theme } = useThemeStore();
 

@@ -7,8 +7,7 @@ import { useLoadingStore } from "../stores/loadingStore";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const StatsPage: React.FC = () => {
-  const { seasons, selectedSeason, fetchSeasons, setSelectedSeason } =
-    useSeasonStore();
+  const { selectedSeason, fetchSeasons } = useSeasonStore();
   const { isLoading } = useLoadingStore();
 
   useEffect(() => {

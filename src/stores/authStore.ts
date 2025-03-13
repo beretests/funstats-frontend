@@ -3,7 +3,7 @@ import { supabase } from "../services/supabase";
 import { useEffect } from "react";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
+// import api from "../services/api";
 import { User } from "@supabase/supabase-js";
 import { useLocation } from "react-router-dom";
 // import { useAlertStore } from "./alertStore";
@@ -61,7 +61,7 @@ export const useAuthStore = create<AuthState>()(
 export const AuthSubscriber = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { session, setSession, removeSession } = useAuthStore();
+  const { setSession, removeSession } = useAuthStore();
   // const showAlert = useAlertStore((state) => state.showAlert);
 
   useEffect(() => {
