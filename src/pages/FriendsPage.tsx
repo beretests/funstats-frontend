@@ -29,7 +29,7 @@ const FriendsPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [friends, setFriends] = useState<Friend[]>([]);
-  const { isLoading, setLoading } = useLoadingStore();
+  const { setLoading } = useLoadingStore();
   const showAlert = useAlertStore((state) => state.showAlert);
 
   useEffect(() => {

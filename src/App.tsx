@@ -17,7 +17,7 @@ import LeaderboardPage from "./pages/LeaderboardPage";
 import AddStatstPage from "./pages/AddStatstPage";
 import StatTrendsPage from "./pages/StatTrendsPage";
 import AlertSnackbar from "./components/AlertSnackbar";
-import LoadingComponent from "./components/LoadingComponent";
+// import LoadingComponent from "./components/LoadingComponent";
 
 const App: React.FC = () => {
   return (

@@ -19,7 +19,7 @@ import { useAuthStore } from "../stores/authStore";
 
 const Login: React.FC = () => {
   const showAlert = useAlertStore((state) => state.showAlert);
-  const { setSession } = useAuthStore();
+  // const { setSession } = useAuthStore();
   const { isLoading, setLoading } = useLoadingStore();
 
   const navigate = useNavigate();
@@ -173,7 +173,7 @@ const Login: React.FC = () => {
         if (!userEmail)
           throw new Error("Email is not set before authentication");
 
-        const { data, error } = await retryOperation(
+        const { error } = await retryOperation(
           () =>
             supabase.auth.signInWithPassword({
               email: userEmail!,

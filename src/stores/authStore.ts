@@ -63,8 +63,8 @@ export const useAuthStore = create<AuthState>()(
 
 export const AuthSubscriber = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { session, setSession, removeSession } = useAuthStore();
+  // const location = useLocation();
+  const { setSession, removeSession } = useAuthStore();
   // const newSession = session;
 
   useEffect(() => {

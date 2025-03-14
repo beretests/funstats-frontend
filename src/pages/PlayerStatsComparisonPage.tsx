@@ -4,7 +4,7 @@ import useSeasonStore from "../stores/seasonStore";
 import { useAuthStore } from "../stores/authStore";
 import { useLoadingStore } from "../stores/loadingStore";
 import { useAlertStore } from "../stores/alertStore";
-import CircularProgress from "@mui/material/CircularProgress";
+// import CircularProgress from "@mui/material/CircularProgress";
 import api from "../services/api";
 import { useParams } from "react-router-dom";
 
@@ -14,7 +14,7 @@ const PlayerStatsComparisonPage: React.FC = () => {
   const [players, setPlayers] = useState<[]>([]);
   const playerIds = `${user.id},${friendId}`;
   const { selectedSeason } = useSeasonStore();
-  const { isLoading, setLoading } = useLoadingStore();
+  const { setLoading } = useLoadingStore();
   const showAlert = useAlertStore((state) => state.showAlert);
 
   useEffect(() => {
