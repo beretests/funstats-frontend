@@ -40,8 +40,6 @@ const FriendsPage: React.FC = () => {
         console.log(friends);
         setFriends(friends.data);
         setLoading(false);
-
-        // return friends;
       } catch (error) {
         console.log(error);
         if (retries > 0) {
@@ -113,7 +111,7 @@ const FriendsPage: React.FC = () => {
                 {new Date(friend.friendship_date).toISOString().split("T")[0]}
               </Typography>
             </CardContent>
-            <CardActions sx={{ justifySelf: "center" }} className="!pt-0">
+            <CardActions className="!pt-0 !justify-self-center">
               <Button
                 size="small"
                 className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg !px-2"
@@ -126,7 +124,7 @@ const FriendsPage: React.FC = () => {
         ))}
         <Card
           raised
-          sx={{ maxHeight: 300, maxWidth: 290, alignContent: "center" }}
+          sx={{ height: 300, maxWidth: 290, alignContent: "center" }}
           className="!rounded-xl"
         >
           <CardActions sx={{ justifySelf: "center", my: "auto" }}>

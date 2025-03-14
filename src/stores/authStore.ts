@@ -72,7 +72,7 @@ export const AuthSubscriber = () => {
       switch (event) {
         case "INITIAL_SESSION":
         case "SIGNED_IN":
-        // case "TOKEN_REFRESHED":
+        case "TOKEN_REFRESHED":
         case "USER_UPDATED":
           if (session) {
             setSession(session);
