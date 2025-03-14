@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { useNavigate } from "react-router-dom";
 import { User } from "@supabase/supabase-js";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 type AuthState = {
   session: any | null;
