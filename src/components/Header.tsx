@@ -165,14 +165,14 @@ export const Header: React.FC = () => {
       </div>
 
       {/* Desktop Menu */}
-      <div className="hidden md:flex gap-2 items-center">
+      <div className="hidden md:flex gap-2 items-center font-special ">
         <ThemeToggle
           darkIcon={<DarkModeIcon className="w-4 h-4" />}
           lightIcon={<LightModeIcon className="w-4 h-4" />}
         />
         {isAuthenticated ? (
-          <div className="flex items-center gap-4 text-accent-100 font-bold font-special">
-            <span className="text-accent-50 mr-4 font-bold font-nunito">
+          <div className="flex items-center gap-4 bg-warn-100 bg-clip-text text-transparent drop-shadow-2xl text-lg font-bold font-special">
+            <span className="text-fail-500/50 mr-4 font-bold font-nunito">
               Hi, {username}
             </span>
             <>
@@ -201,6 +201,14 @@ export const Header: React.FC = () => {
                 Friends
               </NavLink>
               <NavLink
+                to={`/leaderboard`}
+                className={(isActive) =>
+                  "header__item" + (isActive ? "header__item--active" : "")
+                }
+              >
+                Leaderboard
+              </NavLink>
+              <NavLink
                 to={"/"}
                 className={(isActive) =>
                   "header__item" + (isActive ? "header__item--active" : "")
@@ -212,15 +220,17 @@ export const Header: React.FC = () => {
             </>
           </div>
         ) : (
-          <NavLink
-            to={"/login"}
-            className={(isActive) =>
-              "header__item" + (isActive ? "header__item--active" : "")
-            }
-            onClick={handleLogout}
-          >
-            Login
-          </NavLink>
+          <div className="text-accent-100">
+            <NavLink
+              to={"/login"}
+              className={(isActive) =>
+                "header__item" + (isActive ? "header__item--active" : "")
+              }
+              onClick={handleLogout}
+            >
+              Login
+            </NavLink>
+          </div>
         )}
       </div>
     </header>

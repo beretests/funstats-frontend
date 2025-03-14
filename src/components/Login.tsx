@@ -15,9 +15,11 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useAuthStore } from "../stores/authStore";
 
 const Login: React.FC = () => {
   const showAlert = useAlertStore((state) => state.showAlert);
+  const { setSession } = useAuthStore();
   const { isLoading, setLoading } = useLoadingStore();
 
   const navigate = useNavigate();
@@ -44,9 +46,85 @@ const Login: React.FC = () => {
   ) => {
     event.preventDefault();
   };
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   setLoading(true);
+  //   e.preventDefault();
+  //   try {
+  //     const endpoint = isSignUp ? `/auth/signup` : `/auth/login`;
+  //     const payload = isSignUp
+  //       ? { email, password, username }
+  //       : { identifier, password };
+  //     const successMessage = isSignUp
+  //       ? "You've created an account! Update your profile."
+  //       : "You're logged in!";
+  //     if (isSignUp) {
+  //       const { error } = await supabase.auth.signUp({
+  //         email,
+  //         password,
+  //         options: {
+  //           data: {
+  //             username,
+  //             email,
+  //           },
+  //         },
+  //       });
+  //       if (error) throw error;
+  //       showAlert("success", successMessage);
+  //     } else {
+  //       let userEmail = identifier.includes("@") ? identifier : null;
+
+  //       if (!userEmail) {
+  //         const response = await api.post(endpoint, payload);
+  //         userEmail = response.data.email;
+  //         setEmail(userEmail ?? "");
+  //       } else {
+  //         setEmail(userEmail);
+  //       }
+
+  //       // Ensure email is available before calling Supabase auth
+  //       if (!userEmail)
+  //         throw new Error("Email is not set before authentication");
+
+  //       const { error } = await supabase.auth.signInWithPassword({
+  //         email: userEmail,
+  //         password,
+  //       });
+
+  //       if (error) throw error;
+  //       navigate("/profile");
+  //     }
+  //   } catch (error) {
+  //     // console.log(error);
+  //     showAlert("error", (error as Error).message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
     e.preventDefault();
+
+    // Helper function to retry an async operation
+    const retryOperation = async <T,>(
+      operation: () => Promise<T>,
+      retries: number,
+      delay: number
+    ): Promise<T> => {
+      let attempt = 0;
+      while (attempt < retries) {
+        try {
+          return await operation();
+        } catch (error) {
+          attempt++;
+          if (attempt >= retries) throw error;
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+      throw new Error("Operation failed after maximum retries");
+    };
+
     try {
       const endpoint = isSignUp ? `/auth/signup` : `/auth/login`;
       const payload = isSignUp
@@ -55,44 +133,62 @@ const Login: React.FC = () => {
       const successMessage = isSignUp
         ? "You've created an account! Update your profile."
         : "You're logged in!";
+
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              username,
+        // Retry Supabase sign-up call
+        const { error } = await retryOperation(
+          () =>
+            supabase.auth.signUp({
               email,
-            },
-          },
-        });
+              password,
+              options: {
+                data: {
+                  username,
+                  email,
+                },
+              },
+            }),
+          3, // Number of retries
+          1000 // Delay in milliseconds between retries
+        );
+
         if (error) throw error;
         showAlert("success", successMessage);
       } else {
         let userEmail = identifier.includes("@") ? identifier : null;
 
         if (!userEmail) {
-          const response = await api.post(endpoint, payload);
+          // Retry API call to fetch email
+          const response = await retryOperation(
+            () => api.post(endpoint, payload),
+            3, // Number of retries
+            1000 // Delay in milliseconds between retries
+          );
           userEmail = response.data.email;
           setEmail(userEmail ?? "");
         } else {
           setEmail(userEmail);
         }
 
-        // Ensure email is available before calling Supabase auth
         if (!userEmail)
           throw new Error("Email is not set before authentication");
 
-        const { error } = await supabase.auth.signInWithPassword({
-          email: userEmail,
-          password,
-        });
+        const { data, error } = await retryOperation(
+          () =>
+            supabase.auth.signInWithPassword({
+              email: userEmail!,
+              password,
+            }),
+          3, // Number of retries
+          1000 // Delay in milliseconds between retries
+        );
 
         if (error) throw error;
+        // setSession(data.session);
+        // await new Promise((resolve) => setTimeout(resolve, 500));
         navigate("/profile");
       }
     } catch (error) {
-      // console.log(error);
       showAlert("error", (error as Error).message);
     } finally {
       setLoading(false);

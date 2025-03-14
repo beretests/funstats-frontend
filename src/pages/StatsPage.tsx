@@ -18,7 +18,6 @@ const StatsPage: React.FC = () => {
 
   return (
     <div className="text-info-300">
-      {/* <EmojiEventsIcon /> */}
       {selectedSeason ? (
         <PersonalStats />
       ) : isLoading ? (

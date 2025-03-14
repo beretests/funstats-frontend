@@ -11,6 +11,7 @@ interface StatCardProps {
 const StatCard: React.FC<StatCardProps> = ({ icon, stat, label, color }) => {
   return (
     <Card
+      raised
       className={`bg-${color}-100 shadow-lg hover:shadow-xl transition-shadow duration-300`}
     >
       <CardContent className="flex flex-col items-center p-4">

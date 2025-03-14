@@ -95,8 +95,8 @@ const ProfileHeader = () => {
         src={
           file
             ? URL.createObjectURL(file)
-            : player?.avatar_url
-            ? player.avatar_url
+            : player?.avatar_url || player?.user_metadata?.avatar_url
+            ? player.avatar_url || player?.user_metadata?.avatar_url
             : undefined
         }
         alt={player?.full_name}

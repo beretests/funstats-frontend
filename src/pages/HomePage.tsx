@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Link } from "react-router-dom";
+import ScrollDownButton from "../components/ScrollDownButton";
 
 const HomePage = () => {
   const features = [
@@ -58,6 +59,7 @@ const HomePage = () => {
               Get Started
             </Link>
           </motion.div>
+          <ScrollDownButton />
         </div>
       </section>
       <section className=" bg-primary-200/20 py-4">

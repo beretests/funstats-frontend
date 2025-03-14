@@ -14,11 +14,19 @@ import {
   Shield,
   Block,
   Save,
+  Flag,
+  Celebration,
   SportsKabaddi,
   SportsSoccer,
   EmojiEvents,
   SportsVolleyball,
+  TrackChanges,
+  FontDownload,
+  Fence,
 } from "@mui/icons-material";
+import YellowCardIcon from "../YellowCardIcon";
+import RedCardIcon from "../RedCardIcon";
+import SportsMmaIcon from "@mui/icons-material/SportsMma";
 
 interface GameStats {
   player_id: string;
@@ -58,22 +66,30 @@ const PersonalStats: React.FC = () => {
   });
 
   useEffect(() => {
-    const fetchSeasonStats = async (userId: string, seasonId: string) => {
+    const fetchSeasonStats = async (
+      userId: string,
+      seasonId: string,
+      retries = 3
+    ) => {
       setLoading(true);
       try {
         const stats = await api.get(`/api/${userId}/${seasonId}/stats`);
         console.log(stats);
-        setStats(stats.data);
+        setStats(stats.data[0]);
         setLoading(false);
         return stats;
       } catch (error) {
         console.log(error);
-        showAlert("error", `${(error as Error).message} Please try again.`);
+        if (retries > 0) {
+          console.log(`Retrying... Attempts left: ${retries - 1}`);
+          return fetchSeasonStats(userId, seasonId, retries - 1);
+        } else {
+          showAlert("error", `${(error as Error).message} Please try again.`);
+        }
       } finally {
         setLoading(false);
       }
     };
-    console.log("Selected", selectedSeason);
     if (selectedSeason) {
       fetchSeasonStats(user.id, selectedSeason.id);
     }
@@ -96,7 +112,7 @@ const PersonalStats: React.FC = () => {
           <Grid container spacing={4}>
             <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
               <StatCard
-                icon={<SportsScore />}
+                icon={<Celebration />}
                 stat={stats.total_goals}
                 label="Goals"
                 color="red"
@@ -104,7 +120,7 @@ const PersonalStats: React.FC = () => {
             </Grid>
             <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
               <StatCard
-                icon={<AssistantPhoto />}
+                icon={<FontDownload />}
                 stat={stats.total_assists}
                 label="Assists"
                 color="green"
@@ -112,7 +128,7 @@ const PersonalStats: React.FC = () => {
             </Grid>
             <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
               <StatCard
-                icon={<SportsHockey />}
+                icon={<TrackChanges />}
                 stat={stats.total_shots_on_target}
                 label="Shots on Target"
                 color="blue"
@@ -128,7 +144,7 @@ const PersonalStats: React.FC = () => {
             </Grid>
             <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
               <StatCard
-                icon={<Block />}
+                icon={<Fence />}
                 stat={stats.total_interceptions}
                 label="Interceptions"
                 color="purple"
@@ -136,7 +152,7 @@ const PersonalStats: React.FC = () => {
             </Grid>
             <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
               <StatCard
-                icon={<Save />}
+                icon={<SportsMmaIcon />}
                 stat={stats.total_saves}
                 label="Saves"
                 color="cyan"
@@ -160,7 +176,8 @@ const PersonalStats: React.FC = () => {
             </Grid>
             <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
               <StatCard
-                icon={<EmojiEvents />}
+                // icon={<EmojiEvents />}
+                icon={<YellowCardIcon />}
                 stat={stats.total_yellow_cards}
                 label="Yellow Cards"
                 color="amber"
@@ -168,7 +185,15 @@ const PersonalStats: React.FC = () => {
             </Grid>
             <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
               <StatCard
-                icon={<SportsVolleyball />}
+                icon={<RedCardIcon />}
+                stat={stats.total_red_cards}
+                label="Red Cards"
+                color="amber"
+              />
+            </Grid>
+            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
+              <StatCard
+                icon={<Flag />}
                 stat={stats.total_offsides}
                 label="Offsides"
                 color="teal"

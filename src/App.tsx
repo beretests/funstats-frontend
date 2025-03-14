@@ -12,10 +12,12 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import FriendsPage from "./pages/FriendsPage";
 import StatsPage from "./pages/StatsPage";
+import PlayerStatsComparisonPage from "./pages/PlayerStatsComparisonPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import AddStatstPage from "./pages/AddStatstPage";
 import StatTrendsPage from "./pages/StatTrendsPage";
 import AlertSnackbar from "./components/AlertSnackbar";
+import LoadingComponent from "./components/LoadingComponent";
 
 const App: React.FC = () => {
   return (
@@ -25,6 +27,7 @@ const App: React.FC = () => {
         <Header />
         <AlertSnackbar />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
+          {/* <LoadingComponent> */}
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -32,11 +35,16 @@ const App: React.FC = () => {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/friends" element={<FriendsPage />} />
               <Route path="/stats" element={<StatsPage />} />
+              <Route
+                path="/compare-stats/:friendId"
+                element={<PlayerStatsComparisonPage />}
+              />
               <Route path="/stat-trends" element={<StatTrendsPage />} />
               <Route path="/stats/add" element={<AddStatstPage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
             </Route>
           </Routes>
+          {/* </LoadingComponent> */}
         </LocalizationProvider>
       </BrowserRouter>
     </StyledEngineProvider>

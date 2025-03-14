@@ -9,11 +9,15 @@ const ProfileDetails: React.FC = () => {
   let player = user;
 
   const fields = {
-    "Full Name": player?.full_name,
+    "Full Name": player?.full_name || player?.user_metadata?.full_name,
     Email: player?.email,
-    Age: calculateAge(player?.date_of_birth),
-    Position: player?.position,
-    "Favorite Soccer Player": player?.favorite_soccer_player,
+    Age:
+      calculateAge(player?.date_of_birth) ||
+      calculateAge(player?.user_metadata?.date_of_birth),
+    Position: player?.position || player?.user_metadata?.position,
+    "Favorite Soccer Player":
+      player?.favorite_soccer_player ||
+      player?.user_metadata?.favorite_soccer_player,
   };
 
   if (!isEditing) {
