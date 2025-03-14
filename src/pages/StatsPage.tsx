@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import useSeasonStore from "../stores/seasonStore";
 // import SelectSeason from "../components/Stats/SelectSeason";
 import PersonalStats from "../components/Stats/PersonalStats";
-import { useLoadingStore } from "../stores/loadingStore";
+// import { useLoadingStore } from "../stores/loadingStore";
 // import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate, useLocation } from "react-router-dom";
 
