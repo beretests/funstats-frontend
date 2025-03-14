@@ -9,26 +9,36 @@ import api from "../services/api";
 import { useParams } from "react-router-dom";
 
 const PlayerStatsComparisonPage: React.FC = () => {
-  const { friendId } = useParams();
-  const { user } = useAuthStore();
+  const { friendId, friendUsername } = useParams();
+  const { user, username } = useAuthStore();
   const [players, setPlayers] = useState<[]>([]);
   const playerIds = `${user.id},${friendId}`;
   const { selectedSeason } = useSeasonStore();
   const { setLoading } = useLoadingStore();
   const showAlert = useAlertStore((state) => state.showAlert);
 
+  const usersWithUsernames = [
+    { id: `${user.id}`, username: `${username}` },
+    { id: `${friendId}`, username: `${friendUsername}` },
+  ];
+
   useEffect(() => {
     const fetchPlayerFriends = async (userId: string, retries = 3) => {
       setLoading(true);
       try {
-        const players = await api.get(
+        const response = await api.get(
           `/api/${playerIds}/${selectedSeason?.id}/stats`
         );
-        console.log(players);
-        setPlayers(players.data);
+        const playersWithUsernames = response.data.map(
+          (player: { player_id: any }) => ({
+            ...player,
+            username: usersWithUsernames.find(
+              (u: { id: string; username: string }) => u.id === player.player_id
+            )?.username,
+          })
+        );
+        setPlayers(playersWithUsernames);
         setLoading(false);
-
-        // return friends;
       } catch (error) {
         console.log(error);
         if (retries > 0) {

@@ -12,7 +12,7 @@ const StatCard: React.FC<StatCardProps> = ({ icon, stat, label, color }) => {
   return (
     <Card
       raised
-      className={`bg-${color}-100 shadow-lg hover:shadow-xl transition-shadow duration-300`}
+      className={`bg-${color}-100 shadow-lg hover:shadow-xl transition-shadow duration-300 !rounded-xl`}
     >
       <CardContent className="flex flex-col items-center p-4">
         <div className={`text-${color}-500 text-4xl mb-2`}>{icon}</div>

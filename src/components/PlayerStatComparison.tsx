@@ -3,6 +3,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 
 type PlayerStats = {
   player_id: string;
+  username: string;
   total_goals: string;
   total_assists: string;
   total_shots_on_target: string;
@@ -42,11 +43,11 @@ const PlayerStatComparison: React.FC<Props> = ({ playersData }) => {
               variant="h6"
               className="text-center text-info-300 !font-special !text-2xl mb-2"
             >
-              Username
+              {player.username}
             </Typography>
             <div className="grid gap-2 text-sm pt-4">
               {Object.keys(player).map((key) => {
-                if (key === "player_id") return null;
+                if (key === "player_id" || key === "username") return null;
 
                 const isHighest =
                   player[key as keyof PlayerStats] ===

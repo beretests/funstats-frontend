@@ -4,7 +4,7 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import { ThemeToggle } from "./ThemeToggle";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
 import { useThemeStore } from "../stores/themeStore";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -24,13 +24,15 @@ import { useAlertStore } from "../stores/alertStore";
 import { supabase } from "../services/supabase";
 
 export const Header: React.FC = () => {
-  const { isAuthenticated, removeSession, username } = useAuthStore();
+  const { isAuthenticated, username } = useAuthStore();
   const showAlert = useAlertStore((state) => state.showAlert);
   const { theme } = useThemeStore();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    removeSession();
+    // removeSession();
+    navigate("/", { replace: true });
     showAlert("success", "You have successfully logged out!");
   };
 
@@ -226,7 +228,7 @@ export const Header: React.FC = () => {
               className={(isActive) =>
                 "header__item" + (isActive ? "header__item--active" : "")
               }
-              onClick={handleLogout}
+              onClick={() => navigate("/login")}
             >
               Login
             </NavLink>

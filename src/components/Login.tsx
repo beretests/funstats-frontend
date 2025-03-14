@@ -176,7 +176,7 @@ const Login: React.FC = () => {
         const { error } = await retryOperation(
           () =>
             supabase.auth.signInWithPassword({
-              email: userEmail!,
+              email: userEmail!.toLowerCase(),
               password,
             }),
           3, // Number of retries
@@ -185,7 +185,7 @@ const Login: React.FC = () => {
 
         if (error) throw error;
         // setSession(data.session);
-        // await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 500));
         navigate("/profile");
       }
     } catch (error) {

@@ -4,7 +4,7 @@ import { useLoadingStore } from "../stores/loadingStore";
 import { useAlertStore } from "../stores/alertStore";
 import { useAuthStore } from "../stores/authStore";
 import api from "../services/api";
-import { calculateAge } from "../utils/dateUtils";
+// import { calculateAge } from "../utils/dateUtils";
 import {
   Card,
   CardContent,
@@ -55,31 +55,32 @@ const FriendsPage: React.FC = () => {
     fetchPlayerFriends(user.id);
   }, []);
 
-  const handleCompareStats = (friendId: string) => {
-    navigate(`/compare-stats/${friendId}`);
+  const handleCompareStats = (friendId: string, friendUsername: string) => {
+    navigate(`/compare-stats/${friendId}/${friendUsername}`);
   };
 
   return (
-    <div className="bg-soccerGreen min-h-screen p-6">
-      <h1 className="text-center text-soccerYellow text-4xl font-bold mb-6">
-        Soccer Buddies
+    <div className="min-h-screen flex flex-col justify-center items-center py-4">
+      <h1 className="text-center text-info-300 text-4xl font-bold mb-6">
+        My Soccer Buddies
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {friends.map((friend, index) => (
           <Card
             key={index}
             raised
-            sx={{ maxHeight: 300, maxWidth: 290 }}
+            sx={{ maxHeight: 300, maxWidth: 300 }}
             className="!bg-accent-200/40 !rounded-xl"
           >
             <CardMedia
               sx={{ height: 170, objectFit: "auto" }}
               image={friend.avatar_url}
               title={friend.username}
+              className="bg-neutral-300"
             />
             <CardContent
-              className="flex flex-col items-center !pt-2"
-              sx={{ maxHeight: 90 }}
+              className="flex flex-col items-center !pt-1"
+              sx={{ height: 90 }}
             >
               <Typography
                 variant="h6"
@@ -95,13 +96,13 @@ const FriendsPage: React.FC = () => {
               >
                 {friend.full_name}
               </Typography>
-              <Typography
+              {/* <Typography
                 variant="body2"
                 className="text-info-300 font-special"
                 sx={{ fontFamily: "BubblegumSans" }}
               >
                 Age: {calculateAge(friend.date_of_birth)}
-              </Typography>
+              </Typography> */}
               <Typography
                 variant="body2"
                 className="text-info-300 font-special"
@@ -111,11 +112,11 @@ const FriendsPage: React.FC = () => {
                 {new Date(friend.friendship_date).toISOString().split("T")[0]}
               </Typography>
             </CardContent>
-            <CardActions className="!pt-0 !justify-self-center">
+            <CardActions className="!pt-0 !justify-center">
               <Button
                 size="small"
                 className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg !px-2"
-                onClick={() => handleCompareStats(friend.id)}
+                onClick={() => handleCompareStats(friend.id, friend.username)}
               >
                 Compare Stats
               </Button>
@@ -124,13 +125,13 @@ const FriendsPage: React.FC = () => {
         ))}
         <Card
           raised
-          sx={{ height: 300, maxWidth: 290, alignContent: "center" }}
+          sx={{ height: 300, minWidth: 300, alignContent: "center" }}
           className="!rounded-xl"
         >
-          <CardActions sx={{ justifySelf: "center", my: "auto" }}>
+          <CardActions className="!justify-center ">
             <Button
               size="large"
-              className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg"
+              className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg !justify-self-center"
             >
               Add New Buddy
             </Button>

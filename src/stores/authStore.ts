@@ -75,16 +75,19 @@ export const AuthSubscriber = () => {
         case "TOKEN_REFRESHED":
         case "USER_UPDATED":
           if (session) {
-            setSession(session);
-            // if (location.pathname === "/" || location.pathname === "/login") {
-            //   navigate("/profile", { replace: true });
-            // }
+            // Check if the session is expired
+            const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+            if (session.expires_at && session.expires_at <= currentTime) {
+              console.warn("Session expired. Removing stored session.");
+              removeSession();
+            } else {
+              setSession(session);
+            }
           }
           break;
 
         case "SIGNED_OUT":
           removeSession();
-          navigate("/", { replace: true });
           break;
 
         case "PASSWORD_RECOVERY":
@@ -92,6 +95,9 @@ export const AuthSubscriber = () => {
           break;
 
         default:
+          if (!session) {
+            removeSession();
+          }
           console.warn(`Unhandled auth event type: ${event}`);
       }
     };

@@ -13,6 +13,7 @@ import ProfilePage from "./pages/ProfilePage";
 import FriendsPage from "./pages/FriendsPage";
 import StatsPage from "./pages/StatsPage";
 import PlayerStatsComparisonPage from "./pages/PlayerStatsComparisonPage";
+import SelectSeasonPage from "./pages/SelectSeasonPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import AddStatstPage from "./pages/AddStatstPage";
 import StatTrendsPage from "./pages/StatTrendsPage";
@@ -36,10 +37,11 @@ const App: React.FC = () => {
               <Route path="/friends" element={<FriendsPage />} />
               <Route path="/stats" element={<StatsPage />} />
               <Route
-                path="/compare-stats/:friendId"
+                path="/compare-stats/:friendId/:friendUsername"
                 element={<PlayerStatsComparisonPage />}
               />
               <Route path="/stat-trends" element={<StatTrendsPage />} />
+              <Route path="/select-season" element={<SelectSeasonPage />} />
               <Route path="/stats/add" element={<AddStatstPage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
             </Route>

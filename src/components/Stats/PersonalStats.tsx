@@ -27,6 +27,8 @@ import {
 import YellowCardIcon from "../YellowCardIcon";
 import RedCardIcon from "../RedCardIcon";
 import SportsMmaIcon from "@mui/icons-material/SportsMma";
+import { useNavigate } from "react-router-dom";
+import { Card, CardActions } from "@mui/material";
 
 interface GameStats {
   player_id: string;
@@ -45,6 +47,7 @@ interface GameStats {
 }
 
 const PersonalStats: React.FC = () => {
+  const navigate = useNavigate();
   const { selectedSeason } = useSeasonStore();
   const { user } = useAuthStore();
   const { isLoading, setLoading } = useLoadingStore();
@@ -64,6 +67,77 @@ const PersonalStats: React.FC = () => {
     total_offsides: "",
     total_games_played: "",
   });
+
+  // const [isExpanded, setIsExpanded] = useState(false);
+
+  const statItems = [
+    {
+      icon: <Celebration />,
+      stat: stats?.total_goals || "0",
+      label: "Goals",
+      color: "fail",
+    },
+    {
+      icon: <FontDownload />,
+      stat: stats?.total_assists || "0",
+      label: "Assists",
+      color: "green",
+    },
+    {
+      icon: <TrackChanges />,
+      stat: stats?.total_shots_on_target || "0",
+      label: "Shots on Target",
+      color: "blue",
+    },
+    {
+      icon: <Shield />,
+      stat: stats?.total_tackles || "0",
+      label: "Tackles",
+      color: "yellow",
+    },
+    {
+      icon: <Fence />,
+      stat: stats?.total_interceptions || "0",
+      label: "Interceptions",
+      color: "purple",
+    },
+    {
+      icon: <SportsMmaIcon />,
+      stat: stats?.total_saves || "0",
+      label: "Saves",
+      color: "cyan",
+    },
+    {
+      icon: <SportsKabaddi />,
+      stat: stats?.total_fouls || "0",
+      label: "Fouls",
+      color: "orange",
+    },
+    {
+      icon: <SportsSoccer />,
+      stat: stats?.total_headers_won || "0",
+      label: "Headers Won",
+      color: "indigo",
+    },
+    {
+      icon: <YellowCardIcon />,
+      stat: stats?.total_yellow_cards || "0",
+      label: "Yellow Cards",
+      color: "amber",
+    },
+    {
+      icon: <RedCardIcon />,
+      stat: stats?.total_red_cards || "0",
+      label: "Red Cards",
+      color: "amber",
+    },
+    {
+      icon: <Flag />,
+      stat: stats?.total_offsides || "0",
+      label: "Offsides",
+      color: "teal",
+    },
+  ];
 
   useEffect(() => {
     const fetchSeasonStats = async (
@@ -102,104 +176,79 @@ const PersonalStats: React.FC = () => {
           <CircularProgress />
         </div>
       ) : (
-        <div className="p-8 bg-gradient-to-br from-primary-50 to-accent-100  text-info-300">
-          <h1 className="bg-info-200 bg-clip-text text-transparent drop-shadow-xl text-3xl mb-4">
-            Stats for the {selectedSeason?.name} season
+        <div className="min-h-screen p-8 bg-gradient-to-br from-primary-50 to-accent-100  text-info-300">
+          <h1 className="bg-info-200 bg-clip-text text-transparent drop-shadow-xl md:text-3xl mb-4">
+            My Stats for the {selectedSeason?.name} season
           </h1>
+          <div className="text-center mb-4 flex justify-between gap-8 md:justify-center justify-self-center">
+            <button
+              onClick={() => navigate("/select-season")}
+              className="button shadow-md hover:bg-accent-300 transition"
+            >
+              Select New Season
+            </button>
+            {/* <button
+              onClick={() => navigate("/add-stat")}
+              className="button shadow-md hover:bg-accent-300 transition"
+            >
+              Add New Game Stats
+            </button> */}
+          </div>
           <h4 className="text-center font-fredoka text-xl my-4 text-accent-50">
-            Total games played: {stats.total_games_played}
+            Total games played: {stats?.total_games_played || "0"}
           </h4>
+
+          {/* <div className="text-center mb-4">
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="button shadow-md hover:bg-accent-300 transition"
+            >
+              {isExpanded ? "Collapse Stats" : "Expand Stats"}
+            </button>
+          </div> */}
+
+          {/* {isExpanded && ( */}
           <Grid container spacing={4}>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<Celebration />}
-                stat={stats.total_goals}
-                label="Goals"
-                color="red"
-              />
+            <Grid
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              size="grow"
+            >
+              <Card
+                raised
+                className={`bg-neutral-100 h-full w-full flex !justify-center !rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300`}
+              >
+                <CardActions>
+                  <button
+                    className="button"
+                    onClick={() => navigate("/stats/add")}
+                  >
+                    Add New Stat
+                  </button>
+                </CardActions>
+              </Card>
             </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<FontDownload />}
-                stat={stats.total_assists}
-                label="Assists"
-                color="green"
-              />
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<TrackChanges />}
-                stat={stats.total_shots_on_target}
-                label="Shots on Target"
-                color="blue"
-              />
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<Shield />}
-                stat={stats.total_tackles}
-                label="Tackles"
-                color="yellow"
-              />
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<Fence />}
-                stat={stats.total_interceptions}
-                label="Interceptions"
-                color="purple"
-              />
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<SportsMmaIcon />}
-                stat={stats.total_saves}
-                label="Saves"
-                color="cyan"
-              />
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<SportsKabaddi />}
-                stat={stats.total_fouls}
-                label="Fouls"
-                color="orange"
-              />
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<SportsSoccer />}
-                stat={stats.total_headers_won}
-                label="Headers Won"
-                color="indigo"
-              />
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                // icon={<EmojiEvents />}
-                icon={<YellowCardIcon />}
-                stat={stats.total_yellow_cards}
-                label="Yellow Cards"
-                color="amber"
-              />
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<RedCardIcon />}
-                stat={stats.total_red_cards}
-                label="Red Cards"
-                color="amber"
-              />
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-              <StatCard
-                icon={<Flag />}
-                stat={stats.total_offsides}
-                label="Offsides"
-                color="teal"
-              />
-            </Grid>
+            {/* <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
+                <StatCard
+                  icon={<Celebration />}
+                  stat={stats?.total_goals || "0"}
+                  label="Goals"
+                  color="fail"
+                />
+              </Grid> */}
+            {statItems.map((item, index) => (
+              <Grid key={index} size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
+                <StatCard
+                  icon={item.icon}
+                  stat={item.stat}
+                  label={item.label}
+                  color={item.color}
+                />
+              </Grid>
+            ))}
           </Grid>
+          {/* )} */}
         </div>
       )}
     </div>
