@@ -22,6 +22,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import { useAlertStore } from "../stores/alertStore";
 import { supabase } from "../services/supabase";
+import { Badge } from "@mui/material";
 
 export const Header: React.FC = () => {
   const { isAuthenticated, username } = useAuthStore();
@@ -87,14 +88,21 @@ export const Header: React.FC = () => {
             <ListItemText primary="Friends" />
           </ListItemButton>
         </ListItem>
-        <ListItem component={NavLink} to="/leaderboard">
-          <ListItemButton>
-            <ListItemIcon>
-              <LeaderboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Leaderboard" />
-          </ListItemButton>
-        </ListItem>
+        <Badge
+          badgeContent="New"
+          color="error"
+          overlap="rectangular"
+          className="mr-4"
+        >
+          <ListItem component={NavLink} to="/leaderboard">
+            <ListItemButton>
+              <ListItemIcon>
+                <LeaderboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Leaderboard" />
+            </ListItemButton>
+          </ListItem>
+        </Badge>
         <ListItem component={NavLink} to="/" onClick={handleLogout}>
           <ListItemButton>
             <ListItemIcon>
@@ -202,14 +210,16 @@ export const Header: React.FC = () => {
               >
                 Friends
               </NavLink>
-              <NavLink
-                to={`/leaderboard`}
-                className={(isActive) =>
-                  "header__item" + (isActive ? "header__item--active" : "")
-                }
+              <Badge
+                badgeContent="New"
+                color="secondary"
+                overlap="rectangular"
+                className="mr-4"
               >
-                Leaderboard
-              </NavLink>
+                <NavLink to={`/leaderboard`} className="!text-warn-100">
+                  Leaderboard
+                </NavLink>
+              </Badge>
               <NavLink
                 to={"/"}
                 className={(isActive) =>
