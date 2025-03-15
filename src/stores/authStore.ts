@@ -76,13 +76,13 @@ export const AuthSubscriber = () => {
         case "USER_UPDATED":
           if (session) {
             // Check if the session is expired
-            const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-            if (session.expires_at && session.expires_at <= currentTime) {
-              console.warn("Session expired. Removing stored session.");
-              removeSession();
-            } else {
-              setSession(session);
-            }
+            // const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+            // if (session.expires_at && session.expires_at <= currentTime) {
+            //   console.warn("Session expired. Removing stored session.");
+            //   removeSession();
+            // } else {
+            setSession(session);
+            // }
           }
           break;
 
@@ -102,7 +102,15 @@ export const AuthSubscriber = () => {
       }
     };
 
+    const checkSessionExpiry = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        removeSession();
+      }
+    };
+
     supabase.auth.onAuthStateChange(handleAuthChange);
+    checkSessionExpiry();
   }, []);
 
   return null;

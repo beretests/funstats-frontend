@@ -28,9 +28,9 @@ const SelectSeason: React.FC = () => {
         <>
           <h1 className="text-info-300">Select a season to view your stats </h1>
           <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <InputLabel id="demo-select-small-label">Season</InputLabel>
+            <InputLabel id="season-list-label">Season</InputLabel>
             <Select
-              labelId="season-list"
+              labelId="season-list-label"
               id="season-list"
               value={selectedSeason ? selectedSeason.id : ""}
               label="Season"

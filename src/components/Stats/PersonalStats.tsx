@@ -141,13 +141,18 @@ const PersonalStats: React.FC = () => {
 
   useEffect(() => {
     const fetchSeasonStats = async (
-      userId: string,
+      playerIds: string,
       seasonId: string,
       retries = 3
     ) => {
       setLoading(true);
       try {
-        const stats = await api.get(`/api/${userId}/${seasonId}/stats`);
+        const stats = await api.get(`/api/stats`, {
+          params: {
+            playerIds,
+            seasonId,
+          },
+        });
         console.log(stats);
         setStats(stats.data[0]);
         setLoading(false);
@@ -156,7 +161,7 @@ const PersonalStats: React.FC = () => {
         console.log(error);
         if (retries > 0) {
           console.log(`Retrying... Attempts left: ${retries - 1}`);
-          return fetchSeasonStats(userId, seasonId, retries - 1);
+          return fetchSeasonStats(playerIds, seasonId, retries - 1);
         } else {
           showAlert("error", `${(error as Error).message} Please try again.`);
         }

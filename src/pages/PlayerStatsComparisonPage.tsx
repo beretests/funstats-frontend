@@ -26,9 +26,12 @@ const PlayerStatsComparisonPage: React.FC = () => {
     const fetchPlayerFriends = async (userId: string, retries = 3) => {
       setLoading(true);
       try {
-        const response = await api.get(
-          `/api/${playerIds}/${selectedSeason?.id}/stats`
-        );
+        const response = await api.get(`/api/stats`, {
+          params: {
+            playerIds,
+            seasonId: selectedSeason?.id,
+          },
+        });
         const playersWithUsernames = response.data.map(
           (player: { player_id: any }) => ({
             ...player,

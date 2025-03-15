@@ -81,7 +81,7 @@ const PlayerStatComparison: React.FC<Props> = ({ playersData }) => {
                       {key.replace(/_/g, " ").replace(/total /g, "")}
                       {"  "}
                       <span className="hover:!animate-bounce">
-                        {"  "}
+                        {"\n"}
                         {emojiMap[key as keyof typeof emojiMap]}
                       </span>
                       :
