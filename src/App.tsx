@@ -19,6 +19,7 @@ import AddStatstPage from "./pages/AddStatstPage";
 import StatTrendsPage from "./pages/StatTrendsPage";
 import AlertSnackbar from "./components/AlertSnackbar";
 // import LoadingComponent from "./components/LoadingComponent";
+import GitHubIssueButton from "./components/GithubIssueButton";
 
 const App: React.FC = () => {
   return (
@@ -48,6 +49,7 @@ const App: React.FC = () => {
           </Routes>
           {/* </LoadingComponent> */}
         </LocalizationProvider>
+        <GitHubIssueButton />
       </BrowserRouter>
     </StyledEngineProvider>
   );

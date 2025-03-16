@@ -38,7 +38,7 @@
   --font-nunito: "Nunito", "sans serif";
   --font-special: "BubblegumSans", "sans serif";
 
-  --color-*: initial;
+  /* --color-*: initial; */
   --color-neutral-50: oklch(0.147 0.004 49.25);
   --color-neutral-100: oklch(0.216 0.006 56.043);
   --color-neutral-200: oklch(0.268 0.007 34.298);
