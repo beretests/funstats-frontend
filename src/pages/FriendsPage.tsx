@@ -69,24 +69,24 @@ const FriendsPage: React.FC = () => {
     }
   };
 
-  const handleRemoveFriend = async (friendUsername: string) => {
-    try {
-      const response = await api.delete(`/api/${user.id}/friends/remove`, {
-        params: { friendUsername },
-      });
-      if (response.data) {
-        setFriends(
-          friends.filter((friend) => friend.username === friendUsername)
-        );
-        handleClose();
-        showAlert("success", "Successfully added friend.");
-      } else {
-        showAlert("error", "Failed to fetch profile. Please try again.");
-      }
-    } catch (err) {
-      showAlert("error", "An error occurred. Please try again.");
-    }
-  };
+  // const handleRemoveFriend = async (friendUsername: string) => {
+  //   try {
+  //     const response = await api.delete(`/api/${user.id}/friends/remove`, {
+  //       params: { friendUsername },
+  //     });
+  //     if (response.data) {
+  //       setFriends(
+  //         friends.filter((friend) => friend.username === friendUsername)
+  //       );
+  //       handleClose();
+  //       showAlert("success", "Successfully added friend.");
+  //     } else {
+  //       showAlert("error", "Failed to fetch profile. Please try again.");
+  //     }
+  //   } catch (err) {
+  //     showAlert("error", "An error occurred. Please try again.");
+  //   }
+  // };
 
   const getPositionCategory = (position: string) => {
     for (const [category, positions] of Object.entries(positionGroups)) {

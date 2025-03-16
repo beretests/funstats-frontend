@@ -1,6 +1,6 @@
 import React from "react";
 import { Fab, Tooltip } from "@mui/material";
-import BugReportIcon from "@mui/icons-material/BugReport";
+// import BugReportIcon from "@mui/icons-material/BugReport";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 
 const GITHUB_OWNER = "beretests";
