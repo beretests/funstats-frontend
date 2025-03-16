@@ -95,10 +95,10 @@ const FriendsPage: React.FC = () => {
     return "Unknown"; // Default case
   };
   const colors = {
-    Goalkeeper: "!bg-green-500/80 !text-white",
-    Defender: "!bg-blue-500/80 !text-white",
-    Midfielder: "!bg-yellow-500/70 !text-info-300",
-    Forward: "!bg-red-500/80 !text-white",
+    Goalkeeper: "!bg-green-500/80",
+    Defender: "!bg-blue-500/80",
+    Midfielder: "!bg-yellow-500/70",
+    Forward: "!bg-red-500/80",
   };
 
   const getPositionColor = (positionCategory: keyof typeof colors) => {
@@ -137,22 +137,26 @@ const FriendsPage: React.FC = () => {
       <h1 className="text-center text-info-300 text-4xl font-bold mb-6">
         My Soccer Buddies
       </h1>
-      <div className="p-4 text-center mb-4">
+      <div className="p-2 md:px-20 p text-center mb-4">
         <p className="text-neutral-50 text-sm font-fredoka mb-4">
-          Each buddy card is color-coded based on their position.
+          Each buddy card is color-coded based on the position they play.
         </p>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
-          <p className="bg-green-500/80 text-white px-2 py-1 font-bold rounded-md inline-block text-xs">
+        {/* <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4"> */}
+        <div className="flex flex-wrap justify-center gap-2">
+          <p className="bg-green-500/80 text-white px-2 py-1 font-bold rounded-md inline-block text-sm">
             🟢 Goalkeepers – Protect the net
           </p>
-          <p className="bg-blue-500/80 text-white px-2 py-1 font-bold rounded-md inline-block text-xs">
+          <p className="bg-blue-500/80 text-white px-2 py-1 font-bold rounded-md inline-block text-sm">
             🔵 Defenders – Hold the backline
           </p>
-          <p className="bg-yellow-500/70 text-info-300 font-bold px-2 py-1 rounded-md inline-block text-xs">
+          <p className="bg-yellow-500/70 text-info-400 font-bold px-2 py-1 rounded-md inline-block text-sm">
             🟡 Midfielders – Control the game
           </p>
-          <p className="bg-red-500/80 text-white font-bold px-2 py-1 rounded-md inline-block text-xs">
+          <p className="bg-red-500/80 text-white font-bold px-2 py-1 rounded-md inline-block text-sm">
             🔴 Forwards – Lead the attack
+          </p>
+          <p className="bg-white font-bold px-2 py-1 rounded-md inline-block text-sm">
+            <span>⚪</span> Invite your buddy to update his/her position
           </p>
         </div>
       </div>
@@ -240,21 +244,33 @@ const FriendsPage: React.FC = () => {
               >
                 <Typography
                   variant="h6"
-                  className={`mt-4 font-bold ${bgColor} drop-shadow-2xl`}
+                  className={`mt-4 font-bold ${
+                    ["CAM", "CDM", "CM"].includes(friend.position)
+                      ? "text-info-400"
+                      : "text-white"
+                  }`}
                   sx={{ fontFamily: "BubblegumSans" }}
                 >
                   {friend.username}
                 </Typography>
                 <Typography
                   variant="body1"
-                  className={`${bgColor} text-2xl !font-bold`}
+                  className={`${
+                    ["CAM", "CDM", "CM"].includes(friend.position)
+                      ? "text-info-400"
+                      : "text-white"
+                  } text-2xl !font-bold`}
                   sx={{ fontFamily: "Fredoka" }}
                 >
                   {friend.full_name}
                 </Typography>
                 <Typography
                   variant="body2"
-                  className={`${bgColor} font-special !font-bold`}
+                  className={`${
+                    ["CAM", "CDM", "CM"].includes(friend.position)
+                      ? "text-info-400"
+                      : "text-white"
+                  } font-special !font-bold`}
                   sx={{ fontFamily: "Nunito" }}
                 >
                   Friends Since:{" "}
