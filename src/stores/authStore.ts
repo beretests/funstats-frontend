@@ -5,6 +5,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { useNavigate } from "react-router-dom";
 import { User } from "@supabase/supabase-js";
 // import { useLocation } from "react-router-dom";
+import { useAlertStore } from "./alertStore";
 
 type AuthState = {
   session: any | null;
@@ -95,17 +96,27 @@ export const AuthSubscriber = () => {
           break;
 
         default:
-          if (!session) {
+          if (
+            !session ||
+            (session.expires_at &&
+              session.expires_at <= Math.floor(Date.now() / 1000))
+          ) {
             removeSession();
           }
           console.warn(`Unhandled auth event type: ${event}`);
       }
     };
 
+    // useAlertStore().showAlert();
     const checkSessionExpiry = async () => {
       const { data } = await supabase.auth.getSession();
       if (!data.session) {
         removeSession();
+        navigate("/login");
+        useAlertStore().showAlert(
+          "warning",
+          "Your session expired. Please relogin."
+        );
       }
     };
 

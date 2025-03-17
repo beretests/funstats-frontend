@@ -63,13 +63,17 @@ export const Header: React.FC = () => {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List className="w-full bg-accent-200">
+      <List className="w-full bg-info-900/80 !font-special">
         <ListItem component={NavLink} to="/profile">
           <ListItemButton>
             <ListItemIcon>
               <ManageAccountsIcon />
             </ListItemIcon>
-            <ListItemText primary="Profile" />
+            <ListItemText
+              primary="Profile"
+              sx={{ fontFamily: "BubblegumSans" }}
+              className="!font-special"
+            />
           </ListItemButton>
         </ListItem>
         <ListItem component={NavLink} to="/stats">
@@ -90,8 +94,8 @@ export const Header: React.FC = () => {
         </ListItem>
         <Badge
           badgeContent="New"
-          color="error"
-          overlap="rectangular"
+          color="secondary"
+          overlap="circular"
           className="mr-4"
         >
           <ListItem component={NavLink} to="/leaderboard">

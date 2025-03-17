@@ -146,7 +146,7 @@
 
     /* orange, purple, pink */
     --color-accent-50: oklch(70.95% 0.1873 37.8);
-    --color-accent-100: oklch(57.86% 0.2468 288.24);
+    --color-accent-100: oklch(79.6% 0.19 308.5);
     --color-accent-200: oklch(67.2% 0.2281 5.73);
     --color-accent-300: oklch(30.11% 0.1205 325.27);
     --color-accent-400: oklch(30.11% 0.1205 325.27);
@@ -226,6 +226,13 @@
     @apply !font-special !flex !items-center
   }
 
+  .MuiListItemText-primary {
+    @apply !font-special !text-neutral-300
+  }
+
+  .MuiListItemIcon-root {
+    @apply !text-neutral-300
+  }
   /* .Mui-disabled {
     @apply !text-ok-100
   } */
