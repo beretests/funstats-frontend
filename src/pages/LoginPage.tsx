@@ -3,7 +3,7 @@ import Login from "../components/Login";
 
 const LoginPage: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-[85vh] flex items-center justify-center">
       <Login />
     </div>
   );
