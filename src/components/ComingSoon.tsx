@@ -28,7 +28,7 @@ import Typography from "@mui/material/Typography";
 
 const ComingSoon: React.FC = () => {
   return (
-    <div className="flex items-center justify-center h-[80vh] bg-gray-100">
+    <div className="flex items-center justify-center h-[80vh] bg-primary-50">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -43,7 +43,7 @@ const ComingSoon: React.FC = () => {
         <Typography
           variant="h3"
           component="h1"
-          className="text-gray-800 font-bold"
+          className="text-info-400 font-bold"
         >
           Coming Soon...
         </Typography>

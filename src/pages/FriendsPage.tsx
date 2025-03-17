@@ -4,6 +4,7 @@ import { useLoadingStore } from "../stores/loadingStore";
 import { useAlertStore } from "../stores/alertStore";
 import { useAuthStore } from "../stores/authStore";
 import api from "../services/api";
+import CustomModal from "../components/CustomModal";
 // import { calculateAge } from "../utils/dateUtils";
 import {
   Card,
@@ -30,12 +31,13 @@ interface Friend {
 const FriendsPage: React.FC = () => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalAddOpen, setModalAddOpen] = useState(false);
+  const [modalRemoveOpen, setModalRemoveOpen] = useState(false);
   const [friends, setFriends] = useState<Friend[]>([]);
   const { setLoading } = useLoadingStore();
   const showAlert = useAlertStore((state) => state.showAlert);
 
-  // const [error, setError] = useState("");
+  const [error, setError] = useState("");
   const [friendUsername, setFriendUsername] = useState("");
 
   const positionGroups = {
@@ -45,9 +47,10 @@ const FriendsPage: React.FC = () => {
     Forward: ["Forward", "ST", "LW", "RW"],
   };
 
-  const handleOpen = () => setModalOpen(true);
+  // const handleOpen = () => setModalOpen(true);
   const handleClose = () => {
-    setModalOpen(false);
+    setModalAddOpen(false);
+    setModalRemoveOpen(false);
     setFriendUsername("");
     // setError("");
   };
@@ -65,28 +68,29 @@ const FriendsPage: React.FC = () => {
         showAlert("error", "Failed to fetch profile. Please try again.");
       }
     } catch (err) {
+      setError((err as Error).message);
       showAlert("error", "An error occurred. Please try again.");
     }
   };
 
-  // const handleRemoveFriend = async (friendUsername: string) => {
-  //   try {
-  //     const response = await api.delete(`/api/${user.id}/friends/remove`, {
-  //       params: { friendUsername },
-  //     });
-  //     if (response.data) {
-  //       setFriends(
-  //         friends.filter((friend) => friend.username === friendUsername)
-  //       );
-  //       handleClose();
-  //       showAlert("success", "Successfully added friend.");
-  //     } else {
-  //       showAlert("error", "Failed to fetch profile. Please try again.");
-  //     }
-  //   } catch (err) {
-  //     showAlert("error", "An error occurred. Please try again.");
-  //   }
-  // };
+  const handleRemoveFriend = async (friendUsername: string) => {
+    try {
+      const response = await api.delete(`/api/${user.id}/friends/remove`, {
+        params: { friendUsername },
+      });
+      if (response.data) {
+        setFriends(
+          friends.filter((friend) => friend.username === friendUsername)
+        );
+        handleClose();
+        showAlert("success", "Successfully added friend.");
+      } else {
+        showAlert("error", "Failed to fetch profile. Please try again.");
+      }
+    } catch (err) {
+      showAlert("error", "An error occurred. Please try again.");
+    }
+  };
 
   const getPositionCategory = (position: string) => {
     for (const [category, positions] of Object.entries(positionGroups)) {
@@ -141,7 +145,6 @@ const FriendsPage: React.FC = () => {
         <p className="text-neutral-50 text-sm font-fredoka mb-4">
           Each buddy card is color-coded based on the position they play.
         </p>
-        {/* <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4"> */}
         <div className="flex flex-wrap justify-center gap-2">
           <p className="bg-green-500/80 text-white px-2 py-1 font-bold rounded-md inline-block text-sm">
             🟢 Goalkeepers – Protect the net
@@ -155,8 +158,9 @@ const FriendsPage: React.FC = () => {
           <p className="bg-red-500/80 text-white font-bold px-2 py-1 rounded-md inline-block text-sm">
             🔴 Forwards – Lead the attack
           </p>
-          <p className="bg-white font-bold px-2 py-1 rounded-md inline-block text-sm">
-            <span>⚪</span> Invite your buddy to update his/her position
+          <p className="bg-white font-bold px-2 py-1 rounded-md inline-block text-xs sm:text-sm">
+            <span>⚪</span> Invite your buddy to update his/her position in
+            their profile
           </p>
         </div>
       </div>
@@ -170,14 +174,22 @@ const FriendsPage: React.FC = () => {
             <Button
               size="large"
               className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg !justify-self-center"
-              onClick={handleOpen}
+              onClick={() => setModalAddOpen(true)}
             >
               Add New Buddy
             </Button>
           </CardActions>
         </Card>
 
-        <Modal open={modalOpen} onClose={handleClose}>
+        <CustomModal
+          title="Enter New Buddy's Username"
+          modalOpen={modalAddOpen}
+          handleAddFriend={handleAddFriend}
+          handleClose={handleClose}
+          error={error}
+          buttonText="Add Buddy"
+        />
+        {/* <Modal open={modalOpen} onClose={handleClose}>
           <Box
             sx={{
               position: "absolute",
@@ -201,11 +213,6 @@ const FriendsPage: React.FC = () => {
               value={friendUsername}
               onChange={(e) => setFriendUsername(e.target.value)}
             />
-            {/* {error && (
-              <Typography color="error" mt={1}>
-                {error}
-              </Typography>
-            )} */}
             <Box mt={2} display="flex" justifyContent="space-between">
               <Button
                 variant="contained"
@@ -218,7 +225,7 @@ const FriendsPage: React.FC = () => {
               </Button>
             </Box>
           </Box>
-        </Modal>
+        </Modal> */}
 
         {friends.map((friend, index) => {
           const positionCategory = getPositionCategory(friend.position);
@@ -226,74 +233,87 @@ const FriendsPage: React.FC = () => {
             positionCategory as keyof typeof colors
           );
           return (
-            <Card
-              key={index}
-              raised
-              sx={{ maxHeight: 300, maxWidth: 300 }}
-              className={`${bgColor} !rounded-xl`}
-            >
-              <CardMedia
-                sx={{ height: 170, objectFit: "auto" }}
-                image={friend.avatar_url}
-                title={friend.username}
-                className="bg-neutral-300"
-              />
-              <CardContent
-                className="flex flex-col items-center !pt-1"
-                sx={{ height: 90 }}
+            <>
+              <Card
+                key={index}
+                raised
+                sx={{ maxHeight: 300, maxWidth: 300 }}
+                className={`${bgColor} !rounded-xl`}
               >
-                <Typography
-                  variant="h6"
-                  className={`mt-4 font-bold ${
-                    ["CAM", "CDM", "CM"].includes(friend.position)
-                      ? "text-info-400"
-                      : "text-white"
-                  }`}
-                  sx={{ fontFamily: "BubblegumSans" }}
+                <CardMedia
+                  sx={{ height: 170, objectFit: "auto" }}
+                  image={friend.avatar_url}
+                  title={friend.username}
+                  className="bg-neutral-300"
+                />
+                <CardContent
+                  className="flex flex-col items-center !pt-1"
+                  sx={{ height: 90 }}
                 >
-                  {friend.username}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  className={`${
-                    ["CAM", "CDM", "CM"].includes(friend.position)
-                      ? "text-info-400"
-                      : "text-white"
-                  } text-2xl !font-bold`}
-                  sx={{ fontFamily: "Fredoka" }}
-                >
-                  {friend.full_name}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  className={`${
-                    ["CAM", "CDM", "CM"].includes(friend.position)
-                      ? "text-info-400"
-                      : "text-white"
-                  } font-special !font-bold`}
-                  sx={{ fontFamily: "Nunito" }}
-                >
-                  Friends Since:{" "}
-                  {new Date(friend?.friendship_date).toLocaleDateString()}
-                </Typography>
-              </CardContent>
-              <CardActions className="!pt-0 !px-6 !justify-between">
-                <Button
-                  size="small"
-                  className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg !px-2"
-                  onClick={() => handleCompareStats(friend.id, friend.username)}
-                >
-                  Compare Stats
-                </Button>
-                <Button
-                  size="small"
-                  className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg !px-2"
-                  onClick={() => navigate("/friends")}
-                >
-                  Remove Friend
-                </Button>
-              </CardActions>
-            </Card>
+                  <Typography
+                    variant="h6"
+                    className={`mt-4 font-bold ${
+                      ["CAM", "CDM", "CM"].includes(friend.position)
+                        ? "text-info-400"
+                        : "text-white"
+                    }`}
+                    sx={{ fontFamily: "BubblegumSans" }}
+                  >
+                    {friend.username}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    className={`${
+                      ["CAM", "CDM", "CM"].includes(friend.position)
+                        ? "text-info-400"
+                        : "text-white"
+                    } text-2xl !font-bold`}
+                    sx={{ fontFamily: "Fredoka" }}
+                  >
+                    {friend.full_name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    className={`${
+                      ["CAM", "CDM", "CM"].includes(friend.position)
+                        ? "text-info-400"
+                        : "text-white"
+                    } font-special !font-bold`}
+                    sx={{ fontFamily: "Nunito" }}
+                  >
+                    Friends Since:{" "}
+                    {new Date(friend?.friendship_date).toLocaleDateString()}
+                  </Typography>
+                </CardContent>
+                <CardActions className="!pt-0 !px-6 !justify-between">
+                  <Button
+                    size="small"
+                    className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg !px-2"
+                    onClick={() =>
+                      handleCompareStats(friend.id, friend.username)
+                    }
+                  >
+                    Compare Stats
+                  </Button>
+                  <Button
+                    size="small"
+                    className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg !px-2"
+                    onClick={() => setModalRemoveOpen(true)}
+                  >
+                    Remove Friend
+                  </Button>
+                </CardActions>
+              </Card>
+              <CustomModal
+                title={`Are you sure you no longer want to view or compare ${friend.username}'s stats`}
+                modalOpen={modalRemoveOpen}
+                handleRemoveFriend={handleRemoveFriend}
+                handleClose={handleClose}
+                error={error}
+                buttonText="Remove Buddy"
+                username={friend.username}
+              />
+            </>
           );
         })}
       </div>
