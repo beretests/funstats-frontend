@@ -93,10 +93,10 @@ export const Header: React.FC = () => {
           </ListItemButton>
         </ListItem>
         <Badge
-          badgeContent="New"
+          badgeContent="⏳ Coming Soon"
           color="secondary"
           overlap="circular"
-          className="mr-4"
+          className=""
         >
           <ListItem component={NavLink} to="/leaderboard">
             <ListItemButton>
@@ -215,10 +215,10 @@ export const Header: React.FC = () => {
                 Friends
               </NavLink>
               <Badge
-                badgeContent="New"
+                badgeContent="⏳"
                 color="secondary"
                 overlap="rectangular"
-                className="mr-4"
+                className="mr-1"
               >
                 <NavLink to={`/leaderboard`} className="!text-warn-100">
                   Leaderboard
