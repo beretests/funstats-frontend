@@ -12,11 +12,13 @@ type AuthState = {
   user: any | null;
   username: string | null;
   isAuthenticated: boolean;
+  hasHydrated: boolean;
   setUser: (user: any | null) => void;
   updateUser: (partialUser: Partial<User>) => void;
   setUsername: (username: string | null) => void;
   setSession: (session: any | null) => void;
   removeSession: () => void;
+  setHasHydrated: (state: boolean) => void;
 };
 
 export const useAuthStore = create<AuthState>()(
@@ -26,6 +28,7 @@ export const useAuthStore = create<AuthState>()(
       session: null,
       username: null,
       isAuthenticated: false,
+      hasHydrated: false,
       setSession: (session: any | null) => {
         set({
           session,
@@ -53,37 +56,33 @@ export const useAuthStore = create<AuthState>()(
         // localStorage.removeItem("auth-storage");
         // useAuthStore.persist.clearStorage();
       },
+
+      setHasHydrated: (state) => set({ hasHydrated: state }),
     }),
     {
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
       // skipHydration: true,
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true); // Mark hydration as complete
+      },
     }
   )
 );
 
 export const AuthSubscriber = () => {
   const navigate = useNavigate();
-  // const location = useLocation();
   const { setSession, removeSession } = useAuthStore();
-  // const newSession = session;
+  const { showAlert } = useAlertStore();
 
   useEffect(() => {
     const handleAuthChange = async (event: string, session: any) => {
       switch (event) {
-        case "INITIAL_SESSION":
         case "SIGNED_IN":
         case "TOKEN_REFRESHED":
         case "USER_UPDATED":
           if (session) {
-            // Check if the session is expired
-            // const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-            // if (session.expires_at && session.expires_at <= currentTime) {
-            //   console.warn("Session expired. Removing stored session.");
-            //   removeSession();
-            // } else {
             setSession(session);
-            // }
           }
           break;
 
@@ -107,22 +106,20 @@ export const AuthSubscriber = () => {
       }
     };
 
-    // useAlertStore().showAlert();
     const checkSessionExpiry = async () => {
       const { data } = await supabase.auth.getSession();
       if (!data.session) {
         removeSession();
         navigate("/login");
-        useAlertStore().showAlert(
-          "warning",
-          "Your session expired. Please relogin."
-        );
+        showAlert("warning", "Your session expired. Please relogin.");
       }
     };
 
-    supabase.auth.onAuthStateChange(handleAuthChange);
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(handleAuthChange);
     checkSessionExpiry();
+    return () => subscription.unsubscribe();
   }, []);
-
   return null;
 };

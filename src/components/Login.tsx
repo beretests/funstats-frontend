@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { supabase } from "../services/supabase";
 import { useNavigate } from "react-router-dom";
 import { useAlertStore } from "../stores/alertStore";
+import { useAuthStore } from "../stores/authStore";
 import { useLoadingStore } from "../stores/loadingStore";
 import api from "../services/api";
 import IconButton from "@mui/material/IconButton";
@@ -15,6 +16,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 const Login: React.FC = () => {
   const showAlert = useAlertStore((state) => state.showAlert);
+  const { hasHydrated } = useAuthStore();
   const { isLoading, setLoading } = useLoadingStore();
 
   const navigate = useNavigate();
@@ -189,14 +191,21 @@ const Login: React.FC = () => {
         //   3, // Number of retries
         //   1000 // Delay in milliseconds between retries
         // );
-        const { error } = await supabase.auth.signInWithPassword({
+        // await supabase.auth.signOut();
+        localStorage.clear();
+        const { data, error } = await supabase.auth.signInWithPassword({
           email: userEmail!,
           password,
         });
 
         if (error) throw error;
+        if (!data) console.log("No data");
+
+        // if (!hasHydrated) {
+        //   return <div>Loading...</div>;
+        // }
         // setSession(data.session);
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        // await new Promise((resolve) => setTimeout(resolve, 500));
         navigate("/profile");
       }
     } catch (error) {
@@ -208,7 +217,7 @@ const Login: React.FC = () => {
 
   return (
     <div>
-      {isLoading ? (
+      {isLoading && !hasHydrated ? (
         <div className="flex justify-center items-center h-[90vh]">
           <CircularProgress />
         </div>

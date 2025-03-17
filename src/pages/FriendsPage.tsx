@@ -188,9 +188,9 @@ const FriendsPage: React.FC = () => {
             positionCategory as keyof typeof colors
           );
           return (
-            <>
+            <div key={index}>
               <Card
-                key={index}
+                // key={index}
                 raised
                 sx={{ maxHeight: 300, maxWidth: 300 }}
                 className={`${bgColor} !rounded-xl`}
@@ -268,7 +268,7 @@ const FriendsPage: React.FC = () => {
                 buttonText="Remove Buddy"
                 username={friend.username}
               />
-            </>
+            </div>
           );
         })}
       </div>
