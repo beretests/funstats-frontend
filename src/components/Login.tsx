@@ -215,7 +215,7 @@ const Login: React.FC = () => {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="max-w-md mx-4 mt-8 p-4 bg-ok-700/80 shadow-lg rounded-lg"
+          className="max-w-md mx-4 mt-4 p-4 bg-ok-700/80 shadow-lg rounded-lg"
         >
           <h2 className="text-2xl font-bold font-special mb-4 text-center">
             {isSignUp ? "Sign Up" : "Login"}
