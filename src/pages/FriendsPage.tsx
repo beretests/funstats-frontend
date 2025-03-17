@@ -5,7 +5,6 @@ import { useAlertStore } from "../stores/alertStore";
 import { useAuthStore } from "../stores/authStore";
 import api from "../services/api";
 import CustomModal from "../components/CustomModal";
-// import { calculateAge } from "../utils/dateUtils";
 import {
   Card,
   CardContent,
@@ -13,9 +12,6 @@ import {
   Typography,
   CardActions,
   Button,
-  Modal,
-  Box,
-  TextField,
 } from "@mui/material";
 
 interface Friend {
@@ -38,7 +34,6 @@ const FriendsPage: React.FC = () => {
   const showAlert = useAlertStore((state) => state.showAlert);
 
   const [error, setError] = useState("");
-  const [friendUsername, setFriendUsername] = useState("");
 
   const positionGroups = {
     Goalkeeper: ["Goalkeeper", "GK"],
@@ -47,12 +42,9 @@ const FriendsPage: React.FC = () => {
     Forward: ["Forward", "ST", "LW", "RW"],
   };
 
-  // const handleOpen = () => setModalOpen(true);
   const handleClose = () => {
     setModalAddOpen(false);
     setModalRemoveOpen(false);
-    setFriendUsername("");
-    // setError("");
   };
 
   const handleAddFriend = async (friendUsername: string) => {
@@ -96,7 +88,7 @@ const FriendsPage: React.FC = () => {
     for (const [category, positions] of Object.entries(positionGroups)) {
       if (positions.includes(position)) return category;
     }
-    return "Unknown"; // Default case
+    return "Unknown";
   };
   const colors = {
     Goalkeeper: "!bg-green-500/80",
@@ -106,7 +98,7 @@ const FriendsPage: React.FC = () => {
   };
 
   const getPositionColor = (positionCategory: keyof typeof colors) => {
-    return colors[positionCategory] || "bg-gray-500"; // Default fallback
+    return colors[positionCategory] || "bg-gray-500";
   };
 
   useEffect(() => {
@@ -189,43 +181,6 @@ const FriendsPage: React.FC = () => {
           error={error}
           buttonText="Add Buddy"
         />
-        {/* <Modal open={modalOpen} onClose={handleClose}>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 400,
-              bgcolor: "background.paper",
-              borderRadius: "10px",
-              boxShadow: 24,
-              p: 4,
-            }}
-          >
-            <Typography variant="h6" component="h2" mb={2}>
-              Enter Friend's Username
-            </Typography>
-            <TextField
-              fullWidth
-              label="Username"
-              variant="outlined"
-              value={friendUsername}
-              onChange={(e) => setFriendUsername(e.target.value)}
-            />
-            <Box mt={2} display="flex" justifyContent="space-between">
-              <Button
-                variant="contained"
-                onClick={() => handleAddFriend(friendUsername)}
-              >
-                Add Buddy
-              </Button>
-              <Button variant="outlined" onClick={handleClose}>
-                Cancel
-              </Button>
-            </Box>
-          </Box>
-        </Modal> */}
 
         {friends.map((friend, index) => {
           const positionCategory = getPositionCategory(friend.position);
