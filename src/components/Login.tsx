@@ -145,6 +145,7 @@ const Login: React.FC = () => {
                 label="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoFocus
               />
             </FormControl>
           ) : (
@@ -157,6 +158,7 @@ const Login: React.FC = () => {
               </InputLabel>
               <OutlinedInput
                 required
+                autoFocus
                 id="email-or-username"
                 type="text"
                 value={identifier}
