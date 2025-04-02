@@ -6,20 +6,14 @@ import { useAuthStore } from "../../stores/authStore";
 import api from "../../services/api";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid2";
-import StatCard from "./StatCard";
+import FlipCard from "./FlipCard";
+
 import {
-  // SportsScore,
-  // AssistantPhoto,
-  // SportsHockey,
   Shield,
-  // Block,
-  // Save,
   Flag,
   Celebration,
   SportsKabaddi,
   SportsSoccer,
-  // EmojiEvents,
-  // SportsVolleyball,
   TrackChanges,
   FontDownload,
   Fence,
@@ -67,8 +61,6 @@ const PersonalStats: React.FC = () => {
     total_offsides: "",
     total_games_played: "",
   });
-
-  // const [isExpanded, setIsExpanded] = useState(false);
 
   const statItems = [
     {
@@ -140,11 +132,7 @@ const PersonalStats: React.FC = () => {
   ];
 
   useEffect(() => {
-    const fetchSeasonStats = async (
-      playerIds: string,
-      seasonId: string,
-      retries = 3
-    ) => {
+    const fetchSeasonStats = async (playerIds: string, seasonId: string) => {
       setLoading(true);
       try {
         const stats = await api.get(`/api/stats`, {
@@ -159,12 +147,7 @@ const PersonalStats: React.FC = () => {
         return stats;
       } catch (error) {
         console.log(error);
-        if (retries > 0) {
-          console.log(`Retrying... Attempts left: ${retries - 1}`);
-          return fetchSeasonStats(playerIds, seasonId, retries - 1);
-        } else {
-          showAlert("error", `${(error as Error).message} Please try again.`);
-        }
+        showAlert("error", `${(error as Error).message} Please try again.`);
       } finally {
         setLoading(false);
       }
@@ -177,11 +160,11 @@ const PersonalStats: React.FC = () => {
   return (
     <div>
       {isLoading ? (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-[85vh]">
           <CircularProgress />
         </div>
       ) : (
-        <div className="min-h-screen p-8 bg-gradient-to-br from-primary-50 to-accent-100  text-info-300 flex flex-col justify-center items-center transition ease-in-out duration-300">
+        <div className="min-h-screen p-8  text-info-300 flex flex-col justify-center items-center transition ease-in-out duration-300">
           <h1 className="bg-info-200 bg-clip-text text-transparent drop-shadow-xl md:text-3xl mb-4">
             My Stats for the {selectedSeason?.name} season
           </h1>
@@ -193,11 +176,14 @@ const PersonalStats: React.FC = () => {
               Select New Season
             </button>
           </div>
-          <h4 className="text-center font-fredoka text-xl my-4 text-accent-50">
+          <h4 className="text-center font-fredoka underline text-2xl my-4 text-accent-100">
             Total games played: {stats?.total_games_played || "0"}
           </h4>
+          <p className="text-center mb-4 font-nunito text-lg text-info-200 font-bold">
+            Click on each card to view a breakdown of the stat
+          </p>
 
-          <Grid container spacing={4}>
+          <Grid container spacing={4} className="w-full">
             <Grid
               display="flex"
               justifyContent="center"
@@ -206,7 +192,7 @@ const PersonalStats: React.FC = () => {
             >
               <Card
                 raised
-                className={`bg-neutral-100 h-full w-full flex !justify-center !rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 py-[43px]`}
+                className={`bg-neutral-100 min-h-40 w-full flex !justify-center !rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 py-[43px] border-l-4 border-blue-500`}
               >
                 <CardActions>
                   <button
@@ -218,26 +204,10 @@ const PersonalStats: React.FC = () => {
                 </CardActions>
               </Card>
             </Grid>
-            {/* <Grid size={{ xs: 6, md: 4, sm: 6, lg: 3 }}>
-                <StatCard
-                  icon={<Celebration />}
-                  stat={stats?.total_goals || "0"}
-                  label="Goals"
-                  color="fail"
-                />
-              </Grid> */}
             {statItems.map((item, index) => (
-              <Grid key={index} size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
-                <StatCard
-                  icon={item.icon}
-                  stat={item.stat}
-                  label={item.label}
-                  color={item.color}
-                />
-              </Grid>
+              <FlipCard key={index} card={item} index={index} />
             ))}
           </Grid>
-          {/* )} */}
         </div>
       )}
     </div>

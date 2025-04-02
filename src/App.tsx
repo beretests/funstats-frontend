@@ -17,8 +17,8 @@ import SelectSeasonPage from "./pages/SelectSeasonPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import AddStatstPage from "./pages/AddStatstPage";
 import StatTrendsPage from "./pages/StatTrendsPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import AlertSnackbar from "./components/AlertSnackbar";
-// import LoadingComponent from "./components/LoadingComponent";
 import GitHubIssueButton from "./components/GithubIssueButton";
 
 const App: React.FC = () => {
@@ -29,11 +29,10 @@ const App: React.FC = () => {
         <Header />
         <AlertSnackbar />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          {/* <LoadingComponent> */}
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route element={<ProtectedRoute redirectTo="/" />}>
+            <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/friends" element={<FriendsPage />} />
               <Route path="/stats" element={<StatsPage />} />
@@ -46,8 +45,8 @@ const App: React.FC = () => {
               <Route path="/stats/add" element={<AddStatstPage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
             </Route>
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
-          {/* </LoadingComponent> */}
         </LocalizationProvider>
         <GitHubIssueButton />
       </BrowserRouter>

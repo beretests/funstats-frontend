@@ -25,14 +25,13 @@ import { supabase } from "../services/supabase";
 import { Badge } from "@mui/material";
 
 export const Header: React.FC = () => {
-  const { isAuthenticated, username } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   const showAlert = useAlertStore((state) => state.showAlert);
   const { theme } = useThemeStore();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    // removeSession();
     navigate("/", { replace: true });
     showAlert("success", "You have successfully logged out!");
   };
@@ -122,14 +121,14 @@ export const Header: React.FC = () => {
   const anchor = "top";
 
   return (
-    <header className="bg-primary-100 min-h-12 flex justify-between px-2 py-2 items-center shadow-md md:px-8">
+    <header className="bg-gradient-to-r from-[#1B5E20] to-[#1565C0] rounded-bl-2xl rounded-br-2xl min-h-12 flex justify-between px-2 py-2 items-center shadow-md md:px-8">
       <div className="flex items-center gap-1 md:gap-2">
         <Link to="/">
           <img
             src={
               theme === "dark"
-                ? "/funstats-logo-dark.png"
-                : "/funstats-logo-light.png"
+                ? "/logo-warn-100-dark.png"
+                : "/logo-warn-100.png"
             }
             alt="FunStats Logo"
             width={30}
@@ -137,7 +136,7 @@ export const Header: React.FC = () => {
             className="rounded-full shadow-xs hover:scale-110 transition-transform duration-300 ease-in-out drop-shadow-2xl"
           />
         </Link>
-        <h1 className="drop-shadow-3xl font-special bg-gradient-to-r from-accent-100 to-primary-200 bg-clip-text text-2xl text-transparent pt-2 ">
+        <h1 className="drop-shadow-3xl font-special text-warn-100 text-[1.7rem] pt-2 ">
           FunStats
         </h1>
       </div>
@@ -153,7 +152,7 @@ export const Header: React.FC = () => {
           <>
             <button
               onClick={toggleDrawer(anchor, true)}
-              className="bg-accent-100 rounded-full p-1"
+              className="bg-green-600 rounded-full p-1"
             >
               {state.menuOpen ? <MenuOpenIcon /> : <MenuIcon />}
             </button>
@@ -172,8 +171,8 @@ export const Header: React.FC = () => {
             </SwipeableDrawer>
           </>
         ) : (
-          <NavLink to="/login" className="p-1 bg-accent-100 rounded-full">
-            <LoginIcon className="bg-accent-100 rounded-full" />
+          <NavLink to="/login" className="p-1 bg-green-600 rounded-full">
+            <LoginIcon className="bg-green-600 rounded-full" />
           </NavLink>
         )}
       </div>
@@ -186,30 +185,34 @@ export const Header: React.FC = () => {
         />
         {isAuthenticated ? (
           <div className="flex items-center gap-4 bg-warn-100 bg-clip-text text-transparent drop-shadow-2xl text-lg font-bold font-special">
-            <span className="text-fail-500/50 mr-4 font-bold font-nunito">
-              Hi, {username}
-            </span>
             <>
               <NavLink
                 to={`/profile`}
-                className={(isActive) =>
-                  "header__item" + (isActive ? "header__item--active" : "")
+                className={({ isActive }) =>
+                  `px-1 rounded-md transition-colors duration-200 
+                   ${
+                     isActive
+                       ? "dark:bg-green-600 text-white"
+                       : "hover:text-white"
+                   }`
                 }
               >
                 Profile
               </NavLink>
               <NavLink
                 to={`/stats`}
-                className={(isActive) =>
-                  "header__item" + (isActive ? "header__item--active" : "")
+                className={({ isActive }) =>
+                  `px-1 rounded-md transition-colors duration-200 
+                   ${isActive ? "bg-green-600 text-white" : "hover:text-white"}`
                 }
               >
                 Stats
               </NavLink>
               <NavLink
                 to={`/friends`}
-                className={(isActive) =>
-                  "header__item" + (isActive ? "header__item--active" : "")
+                className={({ isActive }) =>
+                  `px-1 rounded-md transition-colors duration-200 
+                   ${isActive ? "bg-green-600 text-white" : "hover:text-white"}`
                 }
               >
                 Friends
@@ -220,14 +223,25 @@ export const Header: React.FC = () => {
                 overlap="rectangular"
                 className="mr-1"
               >
-                <NavLink to={`/leaderboard`} className="!text-warn-100">
+                <NavLink
+                  to={`/leaderboard`}
+                  className={({ isActive }) =>
+                    `px-2 py-1 rounded-md transition-colors duration-200 
+                   ${
+                     isActive
+                       ? "bg-green-600 text-white"
+                       : "text-warn-100 hover:text-white"
+                   }`
+                  }
+                >
                   Leaderboard
                 </NavLink>
               </Badge>
               <NavLink
                 to={"/"}
-                className={(isActive) =>
-                  "header__item" + (isActive ? "header__item--active" : "")
+                className={({ isActive }) =>
+                  `px-1 rounded-md transition-colors duration-200 
+                   ${isActive ? "bg-green-600 text-white" : "hover:text-white"}`
                 }
                 onClick={handleLogout}
               >
@@ -239,9 +253,7 @@ export const Header: React.FC = () => {
           <div className="text-accent-100">
             <NavLink
               to={"/login"}
-              className={(isActive) =>
-                "header__item" + (isActive ? "header__item--active" : "")
-              }
+              className=""
               onClick={() => navigate("/login")}
             >
               Login

@@ -10,16 +10,13 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
-  redirectTo = "/",
+  redirectTo = "/login",
 }) => {
   const { isAuthenticated } = useAuthStore();
   const showAlert = useAlertStore((state) => state.showAlert);
 
   if (!isAuthenticated) {
-    showAlert(
-      "warning",
-      "You must be logged in to view this information. Click the 'Get Started' button to log in."
-    );
+    showAlert("warning", "You must be logged in to view this content.");
     return <Navigate to={redirectTo} replace />;
   }
 

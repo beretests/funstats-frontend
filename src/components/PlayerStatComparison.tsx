@@ -73,7 +73,7 @@ const PlayerStatComparison: React.FC<Props> = ({ playersData }) => {
                     key={key}
                     className={`flex justify-between items-center px-4  rounded-2xl ${
                       isHighest
-                        ? "text-ok-300 font-bold bg-info-300"
+                        ? "text-ok-200 font-bold bg-info-800/80"
                         : "text-neutral-400"
                     }`}
                   >
@@ -89,7 +89,7 @@ const PlayerStatComparison: React.FC<Props> = ({ playersData }) => {
                     <span
                       className={`text-lg ${
                         isHighest
-                          ? "text-info-500 font-bold"
+                          ? "text-info-200 font-bold"
                           : "text-neutral-400"
                       }`}
                     >

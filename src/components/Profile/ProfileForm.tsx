@@ -140,7 +140,8 @@ const ProfileForm: React.FC = () => {
       setLoading(true);
       try {
         const updated = await updateProfileData(user.id, state.formData);
-        // console.log("Updated Profile Data:", updated);
+        console.log("Updated Profile Data:", updated);
+        // updateUserProfile(state.formData);
         setUser({ ...user, ...updated });
 
         setIsEditing(false);

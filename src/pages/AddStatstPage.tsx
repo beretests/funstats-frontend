@@ -6,7 +6,7 @@ import { useAuthStore } from "../stores/authStore";
 import api from "../services/api";
 import StatsAutocomplete from "../components/Stats/StatsAutocomplete";
 import Grid from "@mui/material/Grid2";
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from "react-router-dom";
@@ -70,29 +70,60 @@ const AddStatstPage: React.FC = () => {
   >([]);
 
   const { selectedSeason } = useSeasonStore();
-  const { setLoading } = useLoadingStore();
+  const { isLoading, setLoading } = useLoadingStore();
   const showAlert = useAlertStore((state) => state.showAlert);
 
   const optionLabels = [
-    { option: "awards", label: "Select Award", submit: "awardId" },
-    { option: "clubs", label: "Select Club", submit: "clubId" },
-    { option: "away_teams", label: "Select Away Team", submit: "awayTeamId" },
-    { option: "seasons", label: "Select Season", submit: "seasonId" },
-    { option: "home_teams", label: "Select Home Team", submit: "homeTeamId" },
+    {
+      option: "awards",
+      label: "Select Award",
+      submit: "awardId",
+      endpoint: "/api/awards",
+    },
+    {
+      option: "clubs",
+      label: "Select Club",
+      submit: "clubId",
+      endpoint: "/api/clubs",
+    },
+    {
+      option: "away_teams",
+      label: "Select Away Team",
+      submit: "awayTeamId",
+      endpoint: "/api/teams",
+    },
+    {
+      option: "seasons",
+      label: "Select Season",
+      submit: "seasonId",
+      endpoint: "/api/seasons",
+    },
+    {
+      option: "home_teams",
+      label: "Select Home Team",
+      submit: "homeTeamId",
+      endpoint: "/api/teams",
+    },
     {
       option: "tournaments",
       label: "Select Tournament",
       submit: "tournamentId",
+      endpoint: "/api/tournaments",
     },
   ];
+
+  interface FormOption {
+    id: string;
+    name: string;
+  }
 
   interface Option {
     id: string;
     label: string;
   }
 
-  const [homeTeamValue, setHomeTeamValue] = useState<Option | null>(null);
-  const [awayTeamValue, setAwayTeamValue] = useState<Option | null>(null);
+  const [homeTeamValue, setHomeTeamValue] = useState<FormOption | null>(null);
+  const [awayTeamValue, setAwayTeamValue] = useState<FormOption | null>(null);
 
   const [isHomeTeamChecked, setIsHomeTeamChecked] = useState(false);
   const [isAwayTeamChecked, setIsAwayTeamChecked] = useState(false);
@@ -116,14 +147,14 @@ const AddStatstPage: React.FC = () => {
   ) => {
     if (teamType === "home") {
       setIsHomeTeamChecked(checked);
-      setIsAwayTeamChecked(false); // Uncheck away team checkbox if home team is checked
+      setIsAwayTeamChecked(false);
       setFormPayload((prev) => ({
         ...prev,
         teamId: checked ? prev.homeTeamId : "",
       }));
     } else if (teamType === "away") {
       setIsAwayTeamChecked(checked);
-      setIsHomeTeamChecked(false); // Uncheck home team checkbox if away team is checked
+      setIsHomeTeamChecked(false);
       setFormPayload((prev) => ({
         ...prev,
         teamId: checked ? prev.awayTeamId : "",
@@ -171,12 +202,60 @@ const AddStatstPage: React.FC = () => {
     }
   };
 
+  const handleAddNew = async (
+    optionType: string,
+    newOptionData: {
+      name: string;
+      location?: string;
+      start_date?: string;
+      end_date?: string;
+      club?: FormOption;
+      age_division?: string;
+      skill_tier?: string;
+    }
+  ) => {
+    const optionLabel = optionLabels.find((item) => item.submit === optionType);
+    if (!optionLabel) return;
+
+    console.log("Adding new option:", newOptionData);
+    try {
+      setLoading(true);
+
+      const payload: Record<string, any> = { name: newOptionData.name };
+      if (newOptionData.location) payload.location = newOptionData.location;
+      if (newOptionData.start_date)
+        payload.start_date = newOptionData.start_date;
+      if (newOptionData.end_date) payload.end_date = newOptionData.end_date;
+      if (newOptionData.club) payload.club_id = newOptionData.club.id;
+      if (newOptionData.age_division)
+        payload.age_division = newOptionData.age_division;
+      if (newOptionData.skill_tier)
+        payload.skill_tier = newOptionData.skill_tier;
+
+      const response = await api.post(optionLabel.endpoint, payload);
+      const newOption: Option = response.data;
+
+      setFormOptions((prev) =>
+        prev.map((item) =>
+          item.option === optionLabel.submit
+            ? { ...item, data: [...item.data, newOption] }
+            : item
+        )
+      );
+
+      showAlert(
+        "success",
+        `New ${optionLabel.option.replace(/s$/, "")} added successfully!`
+      );
+    } catch (error) {
+      console.error("Failed to add new option:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchFormOptions = async (
-      userId: string,
-      seasonId: string,
-      retries = 3
-    ) => {
+    const fetchFormOptions = async (userId: string, seasonId: string) => {
       setLoading(true);
       try {
         const response = await api.get(`/api/stats/add/options`, {
@@ -196,12 +275,7 @@ const AddStatstPage: React.FC = () => {
         setLoading(false);
       } catch (error) {
         console.log(error);
-        if (retries > 0) {
-          console.log(`Retrying... Attempts left: ${retries - 1}`);
-          return fetchFormOptions(userId, seasonId, retries - 1);
-        } else {
-          showAlert("error", `${(error as Error).message} Please try again.`);
-        }
+        showAlert("error", `${(error as Error).message} Please try again.`);
       } finally {
         setLoading(false);
       }
@@ -214,92 +288,106 @@ const AddStatstPage: React.FC = () => {
   return (
     <div className="p-4">
       <h1 className="text-info-300">Add new game stats</h1>
-      <div className="p-4">
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
-            <DatePicker
-              label="Game Date"
-              value={dayjs(formPayload.date)}
-              onChange={handleDateChange}
-              slotProps={{
-                textField: { fullWidth: true },
-                layout: {
-                  sx: { color: "#bbdefb", backgroundColor: "#0d47a1" },
-                },
-              }}
-              disableFuture
-            />
-          </Grid>
-          {formOptions.map((item, index) => (
-            <Grid key={index} size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
-              <StatsAutocomplete
-                label={item.label}
-                options={item.data}
-                checkbox={item.option}
-                onChange={(value) =>
-                  handleOptionChange(
-                    item.option as keyof FormSubmissionPayload,
-                    value
-                  )
-                }
-                onCheckboxChange={(checked) =>
-                  handleCheckboxChange(
-                    item.option === "homeTeamId" ? "home" : "away",
-                    checked
-                  )
-                }
-                isCheckboxDisabled={
-                  item.option === "homeTeamId"
-                    ? !homeTeamValue
-                    : item.option === "awayTeamId"
-                    ? !awayTeamValue
-                    : true
-                }
-                isCheckboxChecked={
-                  item.option === "homeTeamId"
-                    ? isHomeTeamChecked
-                    : item.option === "awayTeamId"
-                    ? isAwayTeamChecked
-                    : false
-                }
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </div>
-      <div className="p-4 flex flex-col justify-center items-center gap-4">
-        <Grid container spacing={2}>
-          {Object.keys(initialStats).map((key) => (
-            <Grid size={{ xs: 6, md: 3, sm: 4, lg: 2 }} key={key}>
-              <TextField
-                label={key
-                  .replace(/([A-Z])/g, " $1")
-                  .replace(/^./, (str) => str.toUpperCase())}
-                value={formPayload.stats[key as keyof typeof initialStats]}
-                onChange={handleStatChange(key as keyof typeof initialStats)}
-                type="number"
-                fullWidth
-                variant="outlined"
-                slotProps={{
-                  htmlInput: {
-                    min: 0,
-                    onKeyDown: (e: {
-                      key: string;
-                      preventDefault: () => void;
-                    }) => {
-                      if (e.key === "-" || e.key === "e" || e.key === ".")
-                        e.preventDefault();
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[70vh]">
+          <CircularProgress />
+        </div>
+      ) : (
+        <>
+          <div className="p-4">
+            <Grid container spacing={4}>
+              <Grid size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
+                <DatePicker
+                  label="Game Date"
+                  value={dayjs(formPayload.date)}
+                  onChange={handleDateChange}
+                  slotProps={{
+                    textField: { fullWidth: true },
+                    layout: {
+                      sx: { color: "#bbdefb", backgroundColor: "#0d47a1" },
                     },
-                  },
-                }}
-              />
+                  }}
+                  disableFuture
+                />
+              </Grid>
+              {formOptions.map((item, index) => (
+                <Grid key={index} size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
+                  <StatsAutocomplete
+                    label={item.label}
+                    options={item.data}
+                    checkbox={item.option}
+                    onChange={(value) =>
+                      handleOptionChange(
+                        item.option as keyof FormSubmissionPayload,
+                        value
+                      )
+                    }
+                    onCheckboxChange={(checked) =>
+                      handleCheckboxChange(
+                        item.option === "homeTeamId" ? "home" : "away",
+                        checked
+                      )
+                    }
+                    isCheckboxDisabled={
+                      item.option === "homeTeamId"
+                        ? !homeTeamValue
+                        : item.option === "awayTeamId"
+                        ? !awayTeamValue
+                        : true
+                    }
+                    isCheckboxChecked={
+                      item.option === "homeTeamId"
+                        ? isHomeTeamChecked
+                        : item.option === "awayTeamId"
+                        ? isAwayTeamChecked
+                        : false
+                    }
+                    onAddNew={(newOption) =>
+                      handleAddNew(item.option, newOption)
+                    }
+                    clubs={formOptions[1].data}
+                  />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-        <button className="button md:w-50" onClick={() => handleSubmit()}>
-          Add New Game Stat
-        </button>
-      </div>
+          </div>
+          <div className="p-4 flex flex-col justify-center items-center gap-4">
+            <Grid container spacing={2}>
+              {Object.keys(initialStats).map((key) => (
+                <Grid size={{ xs: 6, md: 3, sm: 4, lg: 2 }} key={key}>
+                  <TextField
+                    label={key
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/^./, (str) => str.toUpperCase())}
+                    value={formPayload.stats[key as keyof typeof initialStats]}
+                    onChange={handleStatChange(
+                      key as keyof typeof initialStats
+                    )}
+                    type="number"
+                    fullWidth
+                    variant="outlined"
+                    slotProps={{
+                      htmlInput: {
+                        min: 0,
+                        onKeyDown: (e: {
+                          key: string;
+                          preventDefault: () => void;
+                        }) => {
+                          if (e.key === "-" || e.key === "e" || e.key === ".")
+                            e.preventDefault();
+                        },
+                      },
+                    }}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            <button className="button md:w-50" onClick={() => handleSubmit()}>
+              Add New Game Stat
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

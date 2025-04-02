@@ -2,33 +2,37 @@ import { create } from "zustand";
 import { supabase } from "../services/supabase";
 import { useEffect } from "react";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { useNavigate } from "react-router-dom";
 import { User } from "@supabase/supabase-js";
-// import { useLocation } from "react-router-dom";
-import { useAlertStore } from "./alertStore";
+import dayjs from "dayjs";
 
 type AuthState = {
   session: any | null;
   user: any | null;
   username: string | null;
   isAuthenticated: boolean;
-  hasHydrated: boolean;
   setUser: (user: any | null) => void;
   updateUser: (partialUser: Partial<User>) => void;
   setUsername: (username: string | null) => void;
   setSession: (session: any | null) => void;
   removeSession: () => void;
-  setHasHydrated: (state: boolean) => void;
+  updateUserProfile: (profile: {
+    username?: string;
+    full_name?: any;
+    email?: any;
+    dateOfBirth?: dayjs.Dayjs;
+    date_of_birth?: number;
+    favorite_soccer_player?: any;
+    position?: any;
+  }) => Promise<void>;
 };
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       session: null,
       username: null,
       isAuthenticated: false,
-      hasHydrated: false,
       setSession: (session: any | null) => {
         set({
           session,
@@ -53,73 +57,63 @@ export const useAuthStore = create<AuthState>()(
           username: null,
           isAuthenticated: false,
         });
-        // localStorage.removeItem("auth-storage");
-        // useAuthStore.persist.clearStorage();
       },
 
-      setHasHydrated: (state) => set({ hasHydrated: state }),
+      updateUserProfile: async (profile) => {
+        const { user } = get();
+        if (!user) return;
+
+        const { error } = await supabase.from("profiles").upsert({
+          id: user.id,
+          ...profile,
+          updated_at: new Date().toISOString(),
+        });
+
+        if (error) {
+          console.error("Error updating profile:", error);
+          throw error;
+        }
+
+        return;
+      },
     }),
     {
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
-      // skipHydration: true,
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true); // Mark hydration as complete
-      },
     }
   )
 );
 
 export const AuthSubscriber = () => {
-  const navigate = useNavigate();
   const { setSession, removeSession } = useAuthStore();
-  const { showAlert } = useAlertStore();
 
   useEffect(() => {
-    const handleAuthChange = async (event: string, session: any) => {
-      switch (event) {
-        case "SIGNED_IN":
-        case "TOKEN_REFRESHED":
-        case "USER_UPDATED":
-          if (session) {
-            setSession(session);
-          }
-          break;
-
-        case "SIGNED_OUT":
-          removeSession();
-          break;
-
-        case "PASSWORD_RECOVERY":
-          navigate("/reset-password", { replace: true });
-          break;
-
-        default:
-          if (
-            !session ||
-            (session.expires_at &&
-              session.expires_at <= Math.floor(Date.now() / 1000))
-          ) {
-            removeSession();
-          }
-          console.warn(`Unhandled auth event type: ${event}`);
-      }
-    };
-
-    const checkSessionExpiry = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setSession(session);
+      } else {
         removeSession();
-        navigate("/login");
-        showAlert("warning", "Your session expired. Please relogin.");
       }
-    };
+    });
 
+    // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(handleAuthChange);
-    checkSessionExpiry();
-    return () => subscription.unsubscribe();
-  }, []);
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
+          setSession(session);
+        } else if (event === "SIGNED_OUT") {
+          removeSession();
+        }
+      } else {
+        removeSession();
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [setSession, removeSession]);
   return null;
 };

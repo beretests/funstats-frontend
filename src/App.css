@@ -94,7 +94,7 @@
   --color-info-950: oklch(0.809 0.018 263.628);
 
   --color-warn-50: oklch(0.286 0.066 53.813);
-  --color-warn-100: oklch(0.421 0.095 57.708);
+  --color-warn-100: oklch(0.73 0.1478 57.708);
   --color-warn-200: oklch(0.476 0.114 61.907);
   --color-warn-300: oklch(0.554 0.135 66.442);
   --color-warn-400: oklch(0.681 0.162 75.834);
@@ -161,7 +161,7 @@
     --color-ok-700: oklch(0.527 0.154 150.069);
     --color-ok-800: oklch(0.448 0.119 151.328);
     --color-ok-900: oklch(0.393 0.095 152.535);
-    --color-ok-950: oklch(0.266 0.065 152.934);
+    --color-ok-950: oklch(0.17 0.037 158.17);
 
     --color-info-50: oklch(0.809 0.018 263.628);
     --color-info-100: oklch(0.752 0.044 260.421);
@@ -201,7 +201,7 @@
   }
 
   body {
-    @apply bg-primary-50 text-secondary-200;         
+    @apply bg-ok-950 text-secondary-200;         
     /* @apply bg-background text-foreground;          */
   } 
 
@@ -215,7 +215,7 @@
 
   /* css-1ll44ll-MuiOutlinedInput-notchedOutline */
   .MuiOutlinedInput-notchedOutline, .MuiInputBase-input, .MuiOutlinedInput-input, .MuiFormLabel-root, .MuiInputLabel-root, .Mui-disabled {
-    @apply !border-ok-100 !text-ok-100 !font-fredoka
+    @apply !border-info-100 !text-info-100 !font-fredoka
   }
 
   .MuiAvatar-root {

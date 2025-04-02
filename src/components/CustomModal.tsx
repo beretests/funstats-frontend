@@ -21,7 +21,6 @@ const CustomModal: React.FC<CustomModalProps> = ({
   handleRemoveFriend,
   buttonText,
 }) => {
-  //   const [error, setError] = useState("");
   const [friendUsername, setFriendUsername] = useState("");
 
   return (
@@ -50,11 +49,6 @@ const CustomModal: React.FC<CustomModalProps> = ({
           onChange={(e) => setFriendUsername(e.target.value)}
           disabled={username ? true : false}
         />
-        {/* {error && (
-          <Typography color="error" mt={1}>
-            {error}
-          </Typography>
-        )} */}
         <Box mt={2} display="flex" justifyContent="space-between">
           <Button
             variant="contained"

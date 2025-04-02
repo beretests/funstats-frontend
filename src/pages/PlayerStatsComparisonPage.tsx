@@ -4,7 +4,6 @@ import useSeasonStore from "../stores/seasonStore";
 import { useAuthStore } from "../stores/authStore";
 import { useLoadingStore } from "../stores/loadingStore";
 import { useAlertStore } from "../stores/alertStore";
-// import CircularProgress from "@mui/material/CircularProgress";
 import api from "../services/api";
 import { useParams } from "react-router-dom";
 
@@ -23,7 +22,7 @@ const PlayerStatsComparisonPage: React.FC = () => {
   ];
 
   useEffect(() => {
-    const fetchPlayerFriends = async (userId: string, retries = 3) => {
+    const fetchPlayerFriends = async () => {
       setLoading(true);
       try {
         const response = await api.get(`/api/stats`, {
@@ -44,21 +43,16 @@ const PlayerStatsComparisonPage: React.FC = () => {
         setLoading(false);
       } catch (error) {
         console.log(error);
-        if (retries > 0) {
-          console.log(`Retrying... Attempts left: ${retries - 1}`);
-          return fetchPlayerFriends(userId, retries - 1);
-        } else {
-          showAlert("error", `${(error as Error).message} Please try again.`);
-        }
+        showAlert("error", `${(error as Error).message} Please try again.`);
       } finally {
         setLoading(false);
       }
     };
-    fetchPlayerFriends(playerIds);
+    fetchPlayerFriends();
   }, []);
 
   return (
-    <div className="min-h-screen bg-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <PlayerStatComparison playersData={players} />
     </div>
   );

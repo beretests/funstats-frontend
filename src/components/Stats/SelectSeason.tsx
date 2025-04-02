@@ -48,7 +48,10 @@ const SelectSeason: React.FC = () => {
           </FormControl>
           {selectedSeason && (
             <>
-              <p>You have selected the {selectedSeason.name} season</p>
+              <p className="text-center">
+                You have selected the <strong>{selectedSeason.name}</strong>{" "}
+                season
+              </p>
               <button className="button" onClick={() => navigate("/stats")}>
                 View your stats
               </button>

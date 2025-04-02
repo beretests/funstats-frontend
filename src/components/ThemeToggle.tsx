@@ -20,11 +20,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   const icons = { dark: lightIcon, light: darkIcon };
 
   return (
-    // <div className="flex items-center space-x-4">
-    <button onClick={toggleTheme} className="p-1 rounded-full bg-accent-100 ">
+    <button onClick={toggleTheme} className="p-1 rounded-full bg-green-600 ">
       {theme === "dark" ? icons.dark : icons.light}
     </button>
-    // <div></div>
-    // </div>
   );
 };
