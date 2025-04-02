@@ -13,12 +13,12 @@ import {
 interface Option {
   id: string;
   name: string;
-  location?: string; // Optional for clubs
-  start_date?: string; // Optional for seasons
-  end_date?: string; // Optional for seasons
-  club?: Option; // Optional for teams
-  age_division?: string; // Optional for teams
-  skill_tier?: string; // Optional for teams
+  location?: string;
+  start_date?: string;
+  end_date?: string;
+  club?: Option;
+  age_division?: string;
+  skill_tier?: string;
 }
 
 interface AutocompleteProps {
@@ -26,9 +26,9 @@ interface AutocompleteProps {
   options: Option[];
   checkbox: string;
   onChange: (value: Option | null) => void;
-  onCheckboxChange?: (checked: boolean) => void; // Add callback for checkbox changes
-  isCheckboxDisabled?: boolean; // Add prop to disable checkbox
-  isCheckboxChecked?: boolean; // Add prop to track if checkbox is checked
+  onCheckboxChange?: (checked: boolean) => void;
+  isCheckboxDisabled?: boolean;
+  isCheckboxChecked?: boolean;
   onAddNew?: (newOption: Option) => void;
   clubs?: Option[];
 }
@@ -53,7 +53,6 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
   const [ageDivision, setAgeDivision] = useState("");
   const [skillTier, setSkillTier] = useState("");
   const [ageDivisionError, setAgeDivisionError] = useState(false);
-  const [skillTierError, setSkillTierError] = useState(false);
 
   const handleAddNew = () => {
     if (name.trim()) {
@@ -67,16 +66,16 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
         skill_tier: skillTier,
       };
       if (label === "Select Club") {
-        newEntry["location"] = location; // Add location for clubs
+        newEntry["location"] = location;
       } else if (label === "Select Season" || label === "Select Tournament") {
-        newEntry["start_date"] = startDate; // Add start_date for seasons
-        newEntry["end_date"] = endDate; // Add end_date for seasons
+        newEntry["start_date"] = startDate;
+        newEntry["end_date"] = endDate;
       } else if (label === "Select Home Team" || label === "Select Away Team") {
         if (selectedClub) {
-          newEntry["club"] = selectedClub; // Add club for teams
+          newEntry["club"] = selectedClub;
         }
-        newEntry["age_division"] = ageDivision; // Add age_division for teams
-        newEntry["skill_tier"] = skillTier; // Add skill_tier for teams
+        newEntry["age_division"] = ageDivision;
+        newEntry["skill_tier"] = skillTier;
       }
       onAddNew?.(newEntry);
       setName("");
@@ -124,9 +123,9 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
       {(checkbox === "homeTeamId" || checkbox === "awayTeamId") && (
         <Checkbox
           id={checkbox}
-          checked={isCheckboxChecked} // Bind checked state
-          disabled={isCheckboxDisabled} // Disable if no value selected
-          onChange={(_event, checked) => onCheckboxChange?.(checked)} // Trigger callback when checked/unchecked
+          checked={isCheckboxChecked}
+          disabled={isCheckboxDisabled}
+          onChange={(_event, checked) => onCheckboxChange?.(checked)}
           color="primary"
           className="justify-self-end pr-0 mr-0"
         />
@@ -191,7 +190,7 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
                   setAgeDivisionError(!/^U\d{0,2}[BG]?$/.test(value));
                 }}
                 onBlur={() => {
-                  setAgeDivisionError(!/^U\d{1,2}[BG]$/.test(location)); // Final validation
+                  setAgeDivisionError(!/^U\d{1,2}[BG]$/.test(location));
                 }}
                 error={ageDivisionError}
                 helperText={
@@ -225,7 +224,7 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
                 fullWidth
                 slotProps={{
                   inputLabel: {
-                    shrink: true, // This ensures the label shrinks
+                    shrink: true,
                   },
                 }}
                 value={startDate}
@@ -239,7 +238,7 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
                 fullWidth
                 slotProps={{
                   inputLabel: {
-                    shrink: true, // This ensures the label shrinks
+                    shrink: true,
                   },
                 }}
                 value={endDate}
