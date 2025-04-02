@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Link } from "react-router-dom";
 import ScrollDownButton from "../components/ScrollDownButton";
+import { Badge } from "@mui/material";
 
 const HomePage = () => {
   const features = [
@@ -78,8 +79,22 @@ const HomePage = () => {
                   p: 0,
                 }}
               >
-                <CardContent>
-                  <h5 className="font-special text-center">{feature.title}</h5>
+                <CardContent className="px-4">
+                  {feature.title === "Interactive Leaderboard" ||
+                  feature.title === "Achievement Badges" ? (
+                    <Badge
+                      badgeContent="⏳"
+                      color="secondary"
+                      overlap="rectangular"
+                      className="pr-4 mb-2"
+                    >
+                      <h5 className="font-special text-center">
+                        {feature.title}
+                      </h5>
+                    </Badge>
+                  ) : (
+                    <h5 className="font-special ">{feature.title}</h5>
+                  )}
                   <p className="font-fredoka text-center">
                     {feature.description}
                   </p>
