@@ -1,54 +1,67 @@
-# React + TypeScript + Vite
+# Project Documentation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This application is a web-based platform designed to provide engaging and interactive statistics related to sports, particularly soccer. It features a visually appealing interface with various graphical assets, such as logos and soccer ball icons, to enhance the user experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## Expanding the ESLint configuration
+This application is a web-based platform designed to provide users with engaging and interactive statistics, primarily focused on sports like soccer. It allows users to explore fun and insightful data visualizations, making statistical analysis more accessible and enjoyable. The app features a modern, responsive design and incorporates customizable themes to enhance the user experience. It is built with a focus on performance and scalability, leveraging a robust frontend tech stack.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **Interactive Statistics**: Displays fun and insightful statistics about soccer.
+- **Customizable Themes**: Includes multiple logo and icon variations for different themes.
+- **Responsive Design**: Optimized for various screen sizes and devices.
+
+## Tech Stack
+
+### Frontend
+
+- **HTML**: The structure of the application is defined in `index.html`.
+- **TypeScript**: The primary programming language used for the application, ensuring type safety and better development experience.
+- **MUI**: Ready to use components.
+- **Vite**: A fast build tool and development server, configured in `vite.config.ts`.
+
+### Tooling
+
+- **ESLint**: Configured in `eslint.config.js` to maintain code quality and enforce coding standards.
+- **TypeScript Configuration**: Managed through `tsconfig.json`, `tsconfig.app.json`, and `tsconfig.node.json` for different build targets.
+
+### Assets
+
+- **Public Directory**: Contains static assets such as logos and icons used in the application.
+
+## Getting Started
+
+1. **Install Dependencies**:
+
+   ```sh
+   npm install
+   ```
+
+2. Run the Development Server:
+
+```sh
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3. Build for Production:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```sh
+npm run build
 ```
+
+4. Preview the Production Build:
+
+```sh
+npm run preview
+```
+
+## Directory Structure
+
+`.env`: Environment variables for the application.
+`public/`: Contains static assets like logos and icons.
+`src/`: The source code of the application.
+`tsconfig.*.json`: TypeScript configuration files for different environments.
+`vite.config.ts`: Configuration for the Vite build tool.

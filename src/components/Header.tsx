@@ -237,14 +237,7 @@ export const Header: React.FC = () => {
                   Leaderboard
                 </NavLink>
               </Badge>
-              <NavLink
-                to={"/"}
-                className={({ isActive }) =>
-                  `px-1 rounded-md transition-colors duration-200 
-                   ${isActive ? "bg-green-600 text-white" : "hover:text-white"}`
-                }
-                onClick={handleLogout}
-              >
+              <NavLink to={"/"} className="" onClick={handleLogout}>
                 Logout
               </NavLink>
             </>
