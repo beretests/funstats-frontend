@@ -127,7 +127,7 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
           disabled={isCheckboxDisabled}
           onChange={(_event, checked) => onCheckboxChange?.(checked)}
           color="primary"
-          className="justify-self-end pr-0 mr-0"
+          className="justify-self-end !pr-0"
         />
       )}
       <Dialog open={open} onClose={() => setOpen(false)}>
