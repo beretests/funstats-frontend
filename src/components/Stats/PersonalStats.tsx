@@ -141,7 +141,7 @@ const PersonalStats: React.FC = () => {
             seasonId,
           },
         });
-        console.log(stats);
+        // console.log(stats);
         setStats(stats.data[0]);
         setLoading(false);
         return stats;

@@ -233,6 +233,7 @@
   .MuiListItemIcon-root {
     @apply !text-neutral-300
   }
+
   /* .Mui-disabled {
     @apply !text-ok-100
   } */
