@@ -10,6 +10,8 @@ type AuthState = {
   user: any | null;
   username: string | null;
   isAuthenticated: boolean;
+  authLoading: boolean; // <-- Add this
+  setAuthLoading: (loading: boolean) => void;
   setUser: (user: any | null) => void;
   updateUser: (partialUser: Partial<User>) => void;
   setUsername: (username: string | null) => void;
@@ -33,6 +35,8 @@ export const useAuthStore = create<AuthState>()(
       session: null,
       username: null,
       isAuthenticated: false,
+      authLoading: true, // <-- Start as true
+      setAuthLoading: (loading: boolean) => set({ authLoading: loading }),
       setSession: (session: any | null) => {
         set({
           session,
@@ -85,15 +89,17 @@ export const useAuthStore = create<AuthState>()(
 );
 
 export const AuthSubscriber = () => {
-  const { setSession, removeSession } = useAuthStore();
+  const { setSession, removeSession, setAuthLoading } = useAuthStore();
 
   useEffect(() => {
+    setAuthLoading(true);
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setSession(session);
       } else {
         removeSession();
       }
+      setAuthLoading(false);
     });
 
     // Listen for auth changes
@@ -109,11 +115,12 @@ export const AuthSubscriber = () => {
       } else {
         removeSession();
       }
+      setAuthLoading(false);
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [setSession, removeSession]);
+  }, [setSession, removeSession, setAuthLoading]);
   return null;
 };

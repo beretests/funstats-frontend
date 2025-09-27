@@ -32,7 +32,6 @@ export const Header: React.FC = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/", { replace: true });
     showAlert("success", "You have successfully logged out!");
   };
 

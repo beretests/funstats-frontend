@@ -71,7 +71,7 @@ const Login: React.FC = () => {
           3,
           1000
         );
-        navigate("/profile");
+        // navigate("/profile");
         showAlert("success", successMessage);
       } else {
         let userEmail = identifier.includes("@") ? identifier : null;
@@ -106,7 +106,7 @@ const Login: React.FC = () => {
           1000
         );
 
-        navigate("/profile");
+        // navigate("/profile");
         showAlert("success", successMessage);
       }
     } catch (error) {
