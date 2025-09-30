@@ -7,6 +7,8 @@ import useSeasonStore from "../../stores/seasonStore";
 import { useLoadingStore } from "../../stores/loadingStore";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
+import Tooltip from "@mui/material/Tooltip";
+// import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const SelectSeason: React.FC = () => {
   const { seasons, selectedSeason, setSelectedSeason } = useSeasonStore();
@@ -29,25 +31,31 @@ const SelectSeason: React.FC = () => {
           <h1 className="text-ok-900 dark:text-info-300">
             Select a season to view your stats{" "}
           </h1>
-          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <InputLabel id="season-list-label">Season</InputLabel>
-            <Select
-              labelId="season-list-label"
-              id="season-list"
-              value={selectedSeason ? selectedSeason.id : ""}
-              label="Season"
-              onChange={handleChange}
-            >
-              <MenuItem value="">
-                <em>Select a season</em>
-              </MenuItem>
-              {seasons.map((season) => (
-                <MenuItem key={season.id} value={season.id}>
-                  {season.name}
+          <Tooltip title="If your desired season is not listed, go to 'Add New Stat' to create a new season.">
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              {/* <InfoOutlinedIcon
+                className="text-info-400 cursor-pointer"
+                fontSize="small"
+              /> */}
+              <InputLabel id="season-list-label">Season</InputLabel>
+              <Select
+                labelId="season-list-label"
+                id="season-list"
+                value={selectedSeason ? selectedSeason.id : ""}
+                label="Season"
+                onChange={handleChange}
+              >
+                <MenuItem value="">
+                  <em>Select a season</em>
                 </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+                {seasons.map((season) => (
+                  <MenuItem key={season.id} value={season.id}>
+                    {season.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Tooltip>
           {selectedSeason && (
             <>
               <p className="text-center text-ok-900 dark:text-info-300 font-nunito">
