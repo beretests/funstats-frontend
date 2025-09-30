@@ -214,8 +214,8 @@
   }
 
   /* css-1ll44ll-MuiOutlinedInput-notchedOutline */
-  .MuiOutlinedInput-notchedOutline, .MuiInputBase-input, .MuiOutlinedInput-input, .MuiFormLabel-root, .MuiInputLabel-root, .Mui-disabled {
-    @apply !border-info-100 !text-info-100 !font-fredoka
+  .MuiOutlinedInput-notchedOutline, .MuiInputBase-input, .MuiOutlinedInput-input, .MuiFormLabel-root, .MuiInputLabel-root, .Mui-disabled, .MuiSvgIcon-root, .MuiSelect-select, .MuiSelect-outlined, .MuiSelect-icon, #season-list, .MuiSelect-root, .MuiFormControl-root {
+    @apply !border-info-100 dark:!border-info-900 !text-info-100 dark:!text-info-900 !font-fredoka
   }
 
   .MuiAvatar-root {
@@ -223,7 +223,11 @@
   }
 
   .MuiButtonBase-root, .MuiButton-root{
-    @apply !font-special !flex !items-center
+    @apply !font-special !flex !items-center !text-info-100
+  }
+
+  .MuiList-root, .MuiMenu-list {
+    @apply !bg-info-700/95 !text-info-100 !font-fredoka
   }
 
   .MuiListItemText-primary {
