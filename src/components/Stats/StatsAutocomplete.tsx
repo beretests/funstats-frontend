@@ -130,7 +130,11 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
           className="justify-self-end pr-0 mr-0"
         />
       )}
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        sx={{ borderRadius: 2 }}
+      >
         <DialogTitle>Add New {label.replace("Select ", "")}</DialogTitle>
         <DialogContent>
           <TextField
@@ -141,6 +145,15 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
             fullWidth
             value={name}
             onChange={(e) => setName(e.target.value)}
+            sx={{
+              "& .MuiInputBase-input .MuiOutlinedInput-input": {
+                "& fieldset": { borderColor: "rgb(209, 213, 219)" },
+                "&:hover fieldset": { borderColor: "rgb(156, 163, 175)" },
+                "&.Mui-focused fieldset": {
+                  borderColor: "rgb(59, 130, 246)",
+                },
+              },
+            }}
           />
           {label === "Select Club" && (
             <TextField
@@ -248,8 +261,28 @@ const StatsAutocomplete: React.FC<AutocompleteProps> = ({
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={handleAddNew} variant="contained" color="primary">
+          <Button
+            onClick={() => setOpen(false)}
+            sx={{
+              bgcolor: "maroon",
+              textTransform: "capitalize",
+              borderRadius: 2,
+              "&:hover": { bgcolor: "darkred" },
+              color: "gray",
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleAddNew}
+            sx={{
+              bgcolor: "var(--color-primary-200)",
+              color: "blue",
+              textTransform: "capitalize",
+              borderRadius: 2,
+              "&:hover": { bgcolor: "darkred" },
+            }}
+          >
             Add
           </Button>
         </DialogActions>

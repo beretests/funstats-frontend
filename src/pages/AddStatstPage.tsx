@@ -11,6 +11,10 @@ import dayjs, { Dayjs } from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from "react-router-dom";
 
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Box from "@mui/material/Box";
+
 interface FormSubmissionPayload {
   date: string | dayjs.Dayjs;
   playerId: string;
@@ -127,6 +131,13 @@ const AddStatstPage: React.FC = () => {
 
   const [isHomeTeamChecked, setIsHomeTeamChecked] = useState(false);
   const [isAwayTeamChecked, setIsAwayTeamChecked] = useState(false);
+
+  const isGameDetailsComplete =
+    !!formPayload.date &&
+    !!formPayload.homeTeamId &&
+    !!formPayload.awayTeamId &&
+    !!formPayload.seasonId &&
+    !!formPayload.teamId;
 
   const handleOptionChange = (
     fieldName: keyof FormSubmissionPayload,
@@ -294,98 +305,168 @@ const AddStatstPage: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className="p-4">
-            <Grid container spacing={4}>
-              <Grid size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
-                <DatePicker
-                  label="Game Date"
-                  value={dayjs(formPayload.date)}
-                  onChange={handleDateChange}
-                  slotProps={{
-                    textField: { fullWidth: true },
-                    layout: {
-                      sx: { color: "#bbdefb", backgroundColor: "#0d47a1" },
-                    },
+          {/* <div className="p-4"> */}
+          <Box>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ mb: 2 }}
+            >
+              <Card
+                sx={{
+                  minWidth: 330,
+                  maxWidth: 1200,
+                  width: { xs: "50%", sm: "90%", lg: "100%" },
+                  p: 2,
+                  my: 4,
+                  bgcolor: "var(--color-ok-700)",
+                  boxShadow: 3,
+                  borderRadius: 2,
+                  color: "var(--color-ok-300)",
+                }}
+              >
+                <CardContent>
+                  <div className="mb-4 text-center text-info-200 font-fredoka">
+                    Please enter all game details below before adding your
+                    stats.
+                  </div>
+                  <Grid container spacing={4}>
+                    <Grid size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
+                      <DatePicker
+                        label="Game Date"
+                        value={dayjs(formPayload.date)}
+                        onChange={handleDateChange}
+                        slotProps={{
+                          textField: { fullWidth: true },
+                          layout: {
+                            sx: {
+                              color: "#bbdefb",
+                              backgroundColor: "#0d47a1",
+                            },
+                          },
+                        }}
+                        disableFuture
+                      />
+                    </Grid>
+                    {formOptions.map((item, index) => (
+                      <Grid key={index} size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
+                        <StatsAutocomplete
+                          label={item.label}
+                          options={item.data}
+                          checkbox={item.option}
+                          onChange={(value) =>
+                            handleOptionChange(
+                              item.option as keyof FormSubmissionPayload,
+                              value
+                            )
+                          }
+                          onCheckboxChange={(checked) =>
+                            handleCheckboxChange(
+                              item.option === "homeTeamId" ? "home" : "away",
+                              checked
+                            )
+                          }
+                          isCheckboxDisabled={
+                            item.option === "homeTeamId"
+                              ? !homeTeamValue
+                              : item.option === "awayTeamId"
+                              ? !awayTeamValue
+                              : true
+                          }
+                          isCheckboxChecked={
+                            item.option === "homeTeamId"
+                              ? isHomeTeamChecked
+                              : item.option === "awayTeamId"
+                              ? isAwayTeamChecked
+                              : false
+                          }
+                          onAddNew={(newOption) =>
+                            handleAddNew(item.option, newOption)
+                          }
+                          clubs={formOptions[1].data}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Box>
+            {/* </div> */}
+            {/* <div className="p-4 flex flex-col justify-center items-center gap-4"> */}
+            {isGameDetailsComplete && (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ mb: 2 }}
+              >
+                <Card
+                  sx={{
+                    minWidth: 330,
+                    maxWidth: 1200,
+                    width: { xs: "50%", sm: "90%", lg: "100%" },
+                    p: 2,
+                    my: 4,
+                    bgcolor: "var(--color-ok-700)",
+                    boxShadow: 3,
+                    borderRadius: 2,
+                    color: "var(--color-ok-300)",
                   }}
-                  disableFuture
-                />
-              </Grid>
-              {formOptions.map((item, index) => (
-                <Grid key={index} size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
-                  <StatsAutocomplete
-                    label={item.label}
-                    options={item.data}
-                    checkbox={item.option}
-                    onChange={(value) =>
-                      handleOptionChange(
-                        item.option as keyof FormSubmissionPayload,
-                        value
-                      )
-                    }
-                    onCheckboxChange={(checked) =>
-                      handleCheckboxChange(
-                        item.option === "homeTeamId" ? "home" : "away",
-                        checked
-                      )
-                    }
-                    isCheckboxDisabled={
-                      item.option === "homeTeamId"
-                        ? !homeTeamValue
-                        : item.option === "awayTeamId"
-                        ? !awayTeamValue
-                        : true
-                    }
-                    isCheckboxChecked={
-                      item.option === "homeTeamId"
-                        ? isHomeTeamChecked
-                        : item.option === "awayTeamId"
-                        ? isAwayTeamChecked
-                        : false
-                    }
-                    onAddNew={(newOption) =>
-                      handleAddNew(item.option, newOption)
-                    }
-                    clubs={formOptions[1].data}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </div>
-          <div className="p-4 flex flex-col justify-center items-center gap-4">
-            <Grid container spacing={2}>
-              {Object.keys(initialStats).map((key) => (
-                <Grid size={{ xs: 6, md: 3, sm: 4, lg: 2 }} key={key}>
-                  <TextField
-                    label={key
-                      .replace(/([A-Z])/g, " $1")
-                      .replace(/^./, (str) => str.toUpperCase())}
-                    value={formPayload.stats[key as keyof typeof initialStats]}
-                    onChange={handleStatChange(
-                      key as keyof typeof initialStats
-                    )}
-                    type="number"
-                    fullWidth
-                    variant="outlined"
-                    slotProps={{
-                      htmlInput: {
-                        min: 0,
-                        onKeyDown: (e: {
-                          key: string;
-                          preventDefault: () => void;
-                        }) => {
-                          if (e.key === "-" || e.key === "e" || e.key === ".")
-                            e.preventDefault();
-                        },
-                      },
-                    }}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-            <button className="button md:w-50" onClick={() => handleSubmit()}>
-              Add New Game Stat
-            </button>
-          </div>
+                >
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      {Object.keys(initialStats).map((key) => (
+                        <Grid size={{ xs: 6, md: 3, sm: 4, lg: 2 }} key={key}>
+                          <TextField
+                            label={key
+                              .replace(/([A-Z])/g, " $1")
+                              .replace(/^./, (str) => str.toUpperCase())}
+                            value={
+                              formPayload.stats[
+                                key as keyof typeof initialStats
+                              ]
+                            }
+                            onChange={handleStatChange(
+                              key as keyof typeof initialStats
+                            )}
+                            type="number"
+                            fullWidth
+                            variant="outlined"
+                            slotProps={{
+                              htmlInput: {
+                                min: 0,
+                                onKeyDown: (e: {
+                                  key: string;
+                                  preventDefault: () => void;
+                                }) => {
+                                  if (
+                                    e.key === "-" ||
+                                    e.key === "e" ||
+                                    e.key === "."
+                                  )
+                                    e.preventDefault();
+                                },
+                              },
+                            }}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <Box display="flex" justifyContent="center" mt={4} mb={0}>
+                      <button
+                        className="button md:w-50"
+                        onClick={() => handleSubmit()}
+                      >
+                        Add New Game Stat
+                      </button>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Box>
+            )}
+            {/* </div> */}
+          </Box>
         </>
       )}
     </div>

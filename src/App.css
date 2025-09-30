@@ -7,7 +7,8 @@
 
 @font-face {
   font-family: "Fredoka";
-  src: url("./assets/fonts/Fredoka-VariableFont_wdth,wght.ttf") format("truetype");
+  src: url("./assets/fonts/Fredoka-VariableFont_wdth,wght.ttf")
+    format("truetype");
   font-weight: 300 700;
   /* font-style: normal; */
 }
@@ -23,7 +24,6 @@
 
 /* @plugin '@tailwindcss/forms'; */
 /* @plugin '@tailwindcss/typography'; */
-
 
 /* @layer components {
   .select2-dropdown { */
@@ -51,7 +51,7 @@
   --color-neutral-900: oklch(0.97 0.001 106.424);
   --color-neutral-950: oklch(0.985 0.001 106.423);
 
-  --drop-shadow-3xl: 0 35px 35px rgba(255, 0, 0, 0.25); 
+  --drop-shadow-3xl: 0 35px 35px rgba(255, 0, 0, 0.25);
 
   /* green, blue and yellow */
   /* --color-primary-50: oklch(97.31% 0.1624 144.21); */
@@ -119,7 +119,7 @@
 }
 
 @layer base {
-  [data-theme="dark"]  {
+  [data-theme="dark"] {
     --color-neutral-50: oklch(0.985 0.001 106.423);
     --color-neutral-100: oklch(0.97 0.001 106.424);
     --color-neutral-200: oklch(0.923 0.003 48.717);
@@ -201,41 +201,64 @@
   }
 
   body {
-    @apply bg-ok-950 text-secondary-200;         
+    @apply bg-ok-950 text-secondary-200;
     /* @apply bg-background text-foreground;          */
-  } 
+  }
 
   h1 {
-    @apply font-special text-2xl text-center
+    @apply font-special text-2xl text-center;
   }
 
   .button {
-    @apply bg-primary-200 font-special rounded-lg text-secondary-200 px-4 py-1 my-2 shadow-md
+    @apply bg-primary-200 font-special rounded-lg text-secondary-200 px-4 py-1 my-2 shadow-md;
   }
 
   /* css-1ll44ll-MuiOutlinedInput-notchedOutline */
-  .MuiOutlinedInput-notchedOutline, .MuiInputBase-input, .MuiOutlinedInput-input, .MuiFormLabel-root, .MuiInputLabel-root, .Mui-disabled, .MuiSvgIcon-root, .MuiSelect-select, .MuiSelect-outlined, .MuiSelect-icon, #season-list, .MuiSelect-root, .MuiFormControl-root {
-    @apply !border-info-100 dark:!border-info-900 !text-info-100 dark:!text-info-900 !font-fredoka
+  .MuiOutlinedInput-notchedOutline,
+  .MuiInputBase-input,
+  .MuiOutlinedInput-input,
+  .MuiFormLabel-root,
+  .MuiInputLabel-root,
+  .Mui-disabled,
+  .MuiSvgIcon-root,
+  .MuiSelect-select,
+  .MuiSelect-outlined,
+  .MuiSelect-icon,
+  #season-list,
+  .MuiSelect-root,
+  .MuiFormControl-root {
+    @apply !border-info-100 dark:!border-info-900 !text-info-100 dark:!text-info-900 !font-fredoka;
   }
 
   .MuiAvatar-root {
-    @apply !bg-ok-500/95 !p-4 shadow-md shadow-info-800/90 
+    @apply !bg-ok-500/95 !p-4 shadow-md shadow-info-800/90;
   }
 
-  .MuiButtonBase-root, .MuiButton-root{
-    @apply !font-special !flex !items-center !text-info-100
+  .MuiButtonBase-root,
+  .MuiButton-root {
+    @apply !font-special !flex !items-center text-info-100;
   }
 
-  .MuiList-root, .MuiMenu-list {
-    @apply !bg-info-700/95 !text-info-100 !font-fredoka
+  .MuiList-root,
+  .MuiMenu-list {
+    @apply !bg-info-300/95 !text-info-100 !font-fredoka;
+  }
+
+  .MuiDialog-paper {
+    @apply !bg-info-900 dark:!bg-info-300/95 !text-ok-100 !font-fredoka !rounded-xl;
+  }
+
+  .MuiDialog-paper .MuiDialog-Content-root .MuiInputBase-input,
+  .MuiDialog-paper .MuiDialog-Content-root .MuiOutlinedInput-input {
+    @apply !border-info-100 dark:!border-accent-200 !text-info-100 dark:!text-info-900 !font-fredoka;
   }
 
   .MuiListItemText-primary {
-    @apply !font-special !text-neutral-300
+    @apply !font-special !text-neutral-300;
   }
 
   .MuiListItemIcon-root {
-    @apply !text-neutral-300
+    @apply !text-neutral-300;
   }
   /* .Mui-disabled {
     @apply !text-ok-100

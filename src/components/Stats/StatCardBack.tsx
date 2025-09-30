@@ -5,7 +5,7 @@ const StatCardBack: React.FC = () => {
   return (
     <Card
       raised
-      className={`absolute !bg-info-700/90 dark:!bg-info-300/20 w-full h-full shadow-lg hover:shadow-xl transition-shadow duration-300 !rounded-xl border-l-4 border-accent-100 backface-hidden`}
+      className={`absolute !bg-info-700/90 dark:!bg-info-200/70 w-full h-full shadow-lg hover:shadow-xl transition-shadow duration-300 !rounded-xl border-l-4 border-accent-100 backface-hidden`}
       style={{ transform: "rotateY(180deg)" }}
     >
       <CardContent className="flex flex-col items-center p-4">
