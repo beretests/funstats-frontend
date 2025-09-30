@@ -9,7 +9,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 const ProfilePage: React.FC = () => {
   const { user, setUser, authLoading, isAuthenticated } = useAuthStore();
 
-  if (authLoading) return null;
+  // if (authLoading) return null;
+  if (authLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -26,14 +33,6 @@ const ProfilePage: React.FC = () => {
       fetchProfileData();
     }
   }, []);
-
-  if (authLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <CircularProgress />
-      </div>
-    );
-  }
 
   return (
     <div className="text-info-300">
