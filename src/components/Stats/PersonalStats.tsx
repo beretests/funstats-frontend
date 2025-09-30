@@ -143,7 +143,7 @@ const PersonalStats: React.FC = () => {
         });
         console.log(stats);
         setStats(stats.data[0]);
-        setLoading(false);
+        // setLoading(false);
         return stats;
       } catch (error) {
         console.log(error);

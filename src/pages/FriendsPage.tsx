@@ -109,7 +109,7 @@ const FriendsPage: React.FC = () => {
         const friends = await api.get(`/api/${userId}/friends`);
         console.log(friends);
         setFriends(friends.data);
-        setLoading(false);
+        // setLoading(false);
       } catch (error) {
         console.log(error);
         showAlert("error", `${(error as Error).message} Please try again.`);
@@ -129,7 +129,7 @@ const FriendsPage: React.FC = () => {
       <h1 className="text-center text-info-300 text-4xl font-bold mb-6">
         My Soccer Buddies
       </h1>
-      {isLoading ? (
+      {isLoading || !friends ? (
         <div className="flex justify-center items-center h-[70vh]">
           <CircularProgress />
         </div>

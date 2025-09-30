@@ -26,7 +26,7 @@ const SelectSeason: React.FC = () => {
         </div>
       ) : (
         <>
-          <h1 className="text-info-300 dark:text-ok-100">
+          <h1 className="text-ok-900 dark:text-info-300">
             Select a season to view your stats{" "}
           </h1>
           <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -50,7 +50,7 @@ const SelectSeason: React.FC = () => {
           </FormControl>
           {selectedSeason && (
             <>
-              <p className="text-center text-info-300 dark:text-ok-100 font-nunito">
+              <p className="text-center text-ok-900 dark:text-info-300 font-nunito">
                 You have selected the <strong>{selectedSeason.name}</strong>{" "}
                 season
               </p>

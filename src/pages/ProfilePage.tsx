@@ -62,10 +62,10 @@ const ProfilePage: React.FC = () => {
           width: { xs: "50%", sm: "80%", md: "60%", lg: "50%" },
           p: 2,
           my: 4,
-          bgcolor: cardBgColor,
+          bgcolor: "var(--color-ok-700)",
           boxShadow: 3,
           borderRadius: 2,
-          color: cardTextColor,
+          color: "var(--color-ok-100)",
         }}
       >
         <CardContent>
