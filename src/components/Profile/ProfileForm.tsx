@@ -159,11 +159,11 @@ const ProfileForm: React.FC = () => {
 
   if (isEditing) {
     return (
-      <div className="min-h-screen p-6 pt-8 max-w-lg mx-auto text-neutral-200 text-center flex flex-col items-center">
+      <div className="min-h-screen p-6 pt-8 max-w-lg mx-auto  text-center flex flex-col items-center">
         {!isLoading ? (
           <form
             onSubmit={handleSubmit}
-            className="bg-neutral-700 text-neutral-200 font-special p-4 rounded shadow-md mt-4 space-y-4 flex flex-col gap-4"
+            className="bg-info-700/30 dark:bg-info-400/30 font-special p-4 rounded shadow-md mt-4 space-y-4 flex flex-col gap-4"
           >
             <TextField
               label="Name"
@@ -233,18 +233,23 @@ const ProfileForm: React.FC = () => {
               ))}
             </TextField>
 
-            <div className="flex items-center justify-between font-special">
+            <div className="flex items-center gap-2 font-special w-full ">
               <button
                 type="button"
                 onClick={() => {
                   setIsEditing(false);
                   dispatch({ type: "RESET" });
                 }}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                className="bg-red-500 text-white hover:bg-red-600 flex-1 min-w-0 rounded-lg px-4 py-2 my-2 h-12 "
+                style={{ minWidth: 0 }}
               >
                 Cancel
               </button>
-              <button type="submit" className="button">
+              <button
+                type="submit"
+                className="button flex-1 min-w-0 h-12 "
+                style={{ minWidth: 0 }}
+              >
                 Save Changes
               </button>
             </div>

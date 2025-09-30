@@ -12,7 +12,7 @@ const StatCard: React.FC<StatCardProps> = ({ icon, stat, label }) => {
   return (
     <Card
       raised
-      className={`absolute !bg-neutral-800/85 shadow-lg hover:shadow-xl transition-shadow w-full h-full duration-300 !rounded-xl border-l-4 border-accent-100 backface-hidden`}
+      className={`absolute !bg-info-700/90 dark:!bg-info-300/20 shadow-lg hover:shadow-xl transition-shadow w-full h-full duration-300 !rounded-xl border-l-4 border-accent-100 backface-hidden`}
     >
       <CardContent className="flex flex-col items-center p-4">
         <div className={`text-ok-500 text-4xl mb-2`}>{icon}</div>

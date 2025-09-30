@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { supabase } from "../services/supabase";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useAlertStore } from "../stores/alertStore";
 import { useLoadingStore } from "../stores/loadingStore";
 import api from "../services/api";
@@ -18,7 +18,7 @@ const Login: React.FC = () => {
   const showAlert = useAlertStore((state) => state.showAlert);
   const { isLoading, setLoading } = useLoadingStore();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
 
   const [email, setEmail] = useState("");
