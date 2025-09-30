@@ -36,17 +36,11 @@ const ProfilePage: React.FC = () => {
     }
   }, []);
 
-  const cardBgColor =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "var(--color-ok-200)"
-      : "var(--color-ok-700)";
-
-  const cardTextColor =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "var(--color-info-500)"
-      : "var(--color-ok-100)";
+  // const cardBgColor =
+  //   window.matchMedia &&
+  //   window.matchMedia("(prefers-color-scheme: dark)").matches
+  //     ? "var(--color-ok-200)"
+  //     : "var(--color-ok-700)";
 
   return (
     <Box
