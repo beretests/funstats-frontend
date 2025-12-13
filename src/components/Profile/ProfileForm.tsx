@@ -159,11 +159,11 @@ const ProfileForm: React.FC = () => {
 
   if (isEditing) {
     return (
-      <div className="min-h-screen p-6 pt-8 max-w-lg mx-auto text-neutral-200 text-center flex flex-col items-center">
+      <div className="min-h-screen p-6 pt-8 max-w-lg mx-auto text-neutral-900 dark:text-neutral-50 text-center flex flex-col items-center">
         {!isLoading ? (
           <form
             onSubmit={handleSubmit}
-            className="bg-neutral-700 text-neutral-200 font-special p-4 rounded shadow-md mt-4 space-y-4 flex flex-col gap-4"
+            className="surface-card font-special p-4 rounded shadow-md mt-4 space-y-4 flex flex-col gap-4"
           >
             <TextField
               label="Name"
@@ -196,12 +196,12 @@ const ProfileForm: React.FC = () => {
                 },
                 layout: {
                   sx: {
-                    color: "#bbdefb",
-                    borderRadius: "2px",
+                    color: "var(--color-neutral-50)",
+                    borderRadius: "8px",
                     borderWidth: "1px",
-                    borderColor: "#2196f3",
+                    borderColor: "var(--color-primary-700)",
                     border: "1px solid",
-                    backgroundColor: "#0d47a1",
+                    backgroundColor: "var(--color-neutral-800)",
                   },
                 },
               }}
@@ -240,7 +240,7 @@ const ProfileForm: React.FC = () => {
                   setIsEditing(false);
                   dispatch({ type: "RESET" });
                 }}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                className="bg-fail-600 text-neutral-50 px-4 py-2 rounded hover:bg-fail-700 transition-colors"
               >
                 Cancel
               </button>

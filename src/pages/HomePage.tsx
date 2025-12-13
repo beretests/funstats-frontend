@@ -28,14 +28,14 @@ const HomePage = () => {
   ];
 
   return (
-    <div>
+    <div className="page-shell space-y-12">
       <section className="min-h-screen flex items-center py-12">
-        <div className="container mx-auto flex flex-col gap-4 justify-between  px-8 text-center">
+        <div className="container mx-auto flex flex-col gap-4 justify-between px-4 md:px-8 text-center">
           <motion.h1
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-2xl md:text-5xl font-bold text-neutral-200 font-special mb-6"
+            className="text-2xl md:text-5xl font-bold text-neutral-900 dark:text-neutral-50 font-special mb-6"
           >
             Kick-Start Your Soccer Journey!
           </motion.h1>
@@ -43,7 +43,7 @@ const HomePage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="md:text-xl text-neutral-200 font-special mb-8"
+            className="md:text-xl text-neutral-800 dark:text-neutral-200 font-special mb-8"
           >
             Fun and interactive soccer app promoting healthy competition among
             young soccer players!
@@ -55,7 +55,7 @@ const HomePage = () => {
           >
             <Link
               to="/login"
-              className="bg-primary-200 text-secondary-300 font-special p-4 rounded-2xl hover:bg-accent-50"
+              className="button inline-flex justify-center px-6 py-3 text-lg"
             >
               Get Started
             </Link>
@@ -63,9 +63,9 @@ const HomePage = () => {
           <ScrollDownButton />
         </div>
       </section>
-      <section className=" bg-primary-200/20 py-4">
-        <div className="container mx-auto px-4">
-          <h2 className="text-xl text-accent-100 md:text-3xl font-special text-center mb-8">
+      <section className="bg-primary-50 dark:bg-neutral-800/60 py-6 rounded-2xl shadow-sm">
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="section-title text-center mb-8">
             App Features
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -73,7 +73,7 @@ const HomePage = () => {
               <Card
                 raised
                 key={index}
-                className="bg-neutral-400 rounded-full hover:shadow-lg transition-shadow duration-300"
+                className="surface-card rounded-2xl hover:shadow-lg transition-shadow duration-300"
                 sx={{
                   borderRadius: 5,
                   p: 0,

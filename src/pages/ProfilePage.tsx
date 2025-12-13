@@ -28,7 +28,7 @@ const ProfilePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="text-info-300">
+    <div className="page-shell">
       {isLoading ? (
         <div className="flex justify-center items-center h-screen">
           <CircularProgress />

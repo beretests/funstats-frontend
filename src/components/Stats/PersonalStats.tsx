@@ -164,8 +164,8 @@ const PersonalStats: React.FC = () => {
           <CircularProgress />
         </div>
       ) : (
-        <div className="min-h-screen p-8  text-info-300 flex flex-col justify-center items-center transition ease-in-out duration-300">
-          <h1 className="bg-info-200 bg-clip-text text-transparent drop-shadow-xl md:text-3xl mb-4">
+        <div className="min-h-screen p-8 text-neutral-900 dark:text-neutral-50 flex flex-col justify-center items-center transition ease-in-out duration-300">
+          <h1 className="section-title text-center md:text-3xl mb-4">
             My Stats for the {selectedSeason?.name} season
           </h1>
           <div className="w-full text-center mb-4">
@@ -176,10 +176,10 @@ const PersonalStats: React.FC = () => {
               Select New Season
             </button>
           </div>
-          <h4 className="text-center font-fredoka underline text-2xl my-4 text-accent-100">
+          <h4 className="text-center font-fredoka underline text-2xl my-4 text-primary-700 dark:text-primary-200">
             Total games played: {stats?.total_games_played || "0"}
           </h4>
-          <p className="text-center mb-4 font-nunito text-lg text-info-200 font-bold">
+          <p className="text-center mb-4 font-nunito text-lg muted-copy font-bold">
             Click on each card to view a breakdown of the stat
           </p>
 
@@ -192,7 +192,7 @@ const PersonalStats: React.FC = () => {
             >
               <Card
                 raised
-                className={`bg-neutral-100 min-h-40 w-full flex !justify-center !rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 py-[43px] border-l-4 border-blue-500`}
+                className={`surface-card min-h-40 w-full flex !justify-center !rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 py-[43px] border-l-4 border-primary-700 dark:border-primary-400`}
               >
                 <CardActions>
                   <button

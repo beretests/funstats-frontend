@@ -18,7 +18,7 @@ const StatsPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="text-info-300">
+    <div className="page-shell">
       <PersonalStats />
     </div>
   );

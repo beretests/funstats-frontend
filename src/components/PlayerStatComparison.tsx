@@ -30,18 +30,18 @@ const PlayerStatComparison: React.FC<Props> = ({ playersData }) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row  gap-4 md:gap-8 justify-center ">
+    <div className="flex flex-col md:flex-row gap-4 md:gap-8 justify-center">
       {playersData.map((player) => (
         <Card
           raised
           key={player.player_id}
           sx={{ maxWidth: 300 }}
-          className="!w-80 md:w-full hover:!bg-warn-100/30 !transition-all !duration-300  !rounded-xl mx"
+          className="surface-card !w-80 md:w-full hover:!bg-neutral-100 dark:hover:!bg-neutral-800 !transition-all !duration-300 !rounded-xl mx"
         >
           <CardContent>
             <Typography
               variant="h6"
-              className="text-center text-info-300 !font-special !text-2xl mb-2"
+              className="text-center !font-special !text-2xl mb-2 text-primary-700 dark:text-primary-200"
             >
               {player.username}
             </Typography>
@@ -71,10 +71,10 @@ const PlayerStatComparison: React.FC<Props> = ({ playersData }) => {
                 return (
                   <div
                     key={key}
-                    className={`flex justify-between items-center px-4  rounded-2xl ${
+                    className={`flex justify-between items-center px-4 rounded-2xl ${
                       isHighest
-                        ? "text-ok-200 font-bold bg-info-800/80"
-                        : "text-neutral-400"
+                        ? "bg-primary-700 text-neutral-50"
+                        : "text-neutral-700 dark:text-neutral-300"
                     }`}
                   >
                     <span className="font-fredoka font-bold capitalize">
@@ -89,8 +89,8 @@ const PlayerStatComparison: React.FC<Props> = ({ playersData }) => {
                     <span
                       className={`text-lg ${
                         isHighest
-                          ? "text-info-200 font-bold"
-                          : "text-neutral-400"
+                          ? "text-neutral-50 font-bold"
+                          : "text-neutral-800 dark:text-neutral-200"
                       }`}
                     >
                       {player[key as keyof PlayerStats]}

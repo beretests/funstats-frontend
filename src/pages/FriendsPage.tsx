@@ -92,10 +92,10 @@ const FriendsPage: React.FC = () => {
     return "Unknown";
   };
   const colors = {
-    Goalkeeper: "!bg-green-500/80",
-    Defender: "!bg-blue-500/80",
-    Midfielder: "!bg-purple-500/70",
-    Forward: "!bg-red-500/80",
+    Goalkeeper: "!bg-ok-600",
+    Defender: "!bg-info-600",
+    Midfielder: "!bg-secondary-600",
+    Forward: "!bg-fail-600",
   };
 
   const getPositionColor = (positionCategory: keyof typeof colors) => {
@@ -125,8 +125,8 @@ const FriendsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center py-4">
-      <h1 className="text-center text-info-300 text-4xl font-bold mb-6">
+    <div className="page-shell flex flex-col items-center gap-6">
+      <h1 className="section-title text-center text-4xl">
         My Soccer Buddies
       </h1>
       {isLoading ? (
@@ -135,26 +135,25 @@ const FriendsPage: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className="p-2 md:px-20 p text-center mb-4">
-            <p className="text-neutral-50 text-sm font-fredoka mb-4">
+          <div className="p-2 md:px-20 text-center mb-4">
+            <p className="muted-copy text-sm font-fredoka mb-4">
               Each buddy card is color-coded based on the position they play.
             </p>
             <div className="flex flex-wrap justify-center gap-2">
-              <p className="bg-green-500/80 text-white px-2 py-1 font-bold rounded-md inline-block text-sm drop-shadow-md">
+              <p className="bg-ok-600 text-neutral-50 px-2 py-1 font-bold rounded-md inline-block text-sm drop-shadow-md">
                 🟢 Goalkeepers – Protect the net
               </p>
-              <p className="bg-blue-500/80 text-white px-2 py-1 font-bold rounded-md inline-block text-sm drop-shadow-md">
+              <p className="bg-info-600 text-neutral-50 px-2 py-1 font-bold rounded-md inline-block text-sm drop-shadow-md">
                 🔵 Defenders – Hold the backline
               </p>
-              <p className="bg-purple-500/70 text-white font-bold px-2 py-1 rounded-md inline-block text-sm drop-shadow-md">
+              <p className="bg-secondary-600 text-neutral-50 font-bold px-2 py-1 rounded-md inline-block text-sm drop-shadow-md">
                 🟣 Midfielders – Control the game
               </p>
-              <p className="bg-red-500/80 text-white font-bold px-2 py-1 rounded-md inline-block text-sm drop-shadow-md">
+              <p className="bg-fail-600 text-neutral-50 font-bold px-2 py-1 rounded-md inline-block text-sm drop-shadow-md">
                 🔴 Forwards – Lead the attack
               </p>
-              <p className="bg-white font-bold px-2 py-1 rounded-md inline-block text-xs sm:text-sm drop-shadow-md">
-                <span>⚪</span> Invite your buddy to update his/her position in
-                their profile
+              <p className="bg-neutral-100 text-neutral-900 font-bold px-2 py-1 rounded-md inline-block text-xs sm:text-sm drop-shadow-md dark:bg-neutral-800 dark:text-neutral-50">
+                ⚪ Invite your buddy to update his/her position in their profile
               </p>
             </div>
           </div>
@@ -162,12 +161,12 @@ const FriendsPage: React.FC = () => {
             <Card
               raised
               sx={{ height: 300, minWidth: 300, alignContent: "center" }}
-              className="!rounded-xl"
+              className="!rounded-xl surface-card !flex !items-center !justify-center"
             >
               <CardActions className="!justify-center ">
                 <Button
                   size="large"
-                  className="!text-info-500 !bg-primary-200/80 !rounded-lg !normal-case !shadow-lg !justify-self-center"
+                  className="!text-neutral-50 !bg-primary-700 hover:!bg-primary-800 !rounded-lg !normal-case !shadow-lg !justify-self-center !transition-colors"
                   onClick={() => setModalAddOpen(true)}
                 >
                   Add New Buddy
@@ -208,21 +207,21 @@ const FriendsPage: React.FC = () => {
                     >
                       <Typography
                         variant="h6"
-                        className="mt-4 font-bold text-white"
+                        className="mt-4 font-bold text-neutral-50"
                         sx={{ fontFamily: "BubblegumSans" }}
                       >
                         {friend.username}
                       </Typography>
                       <Typography
                         variant="body1"
-                        className="text-white text-2xl !font-bold"
+                        className="text-neutral-50 text-2xl !font-bold"
                         sx={{ fontFamily: "Fredoka" }}
                       >
                         {friend.full_name}
                       </Typography>
                       <Typography
                         variant="body2"
-                        className="text-white font-special !font-bold"
+                        className="text-neutral-50 font-special !font-bold"
                         sx={{ fontFamily: "Nunito" }}
                       >
                         Friends Since:{" "}
@@ -232,7 +231,7 @@ const FriendsPage: React.FC = () => {
                     <CardActions className="!pt-0 !px-6 !justify-between">
                       <Button
                         size="small"
-                        className="!text-info-500 !bg-primary-200 !rounded-lg !normal-case !shadow-lg !px-2"
+                        className="!text-neutral-50 !bg-primary-700 hover:!bg-primary-800 !rounded-lg !normal-case !shadow-lg !px-2 !transition-colors"
                         onClick={() =>
                           handleCompareStats(friend.id, friend.username)
                         }
@@ -241,7 +240,7 @@ const FriendsPage: React.FC = () => {
                       </Button>
                       <Button
                         size="small"
-                        className="!text-info-500 !bg-primary-200 !rounded-lg !normal-case !shadow-lg !px-2"
+                        className="!text-neutral-50 !bg-primary-700 hover:!bg-primary-800 !rounded-lg !normal-case !shadow-lg !px-2 !transition-colors"
                         onClick={() => setFriendToRemove(friend)}
                       >
                         Remove Friend

@@ -62,7 +62,7 @@ export const Header: React.FC = () => {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List className="w-full bg-info-900/80 !font-special">
+      <List className="w-full bg-neutral-900/90 text-neutral-50 !font-special">
         <ListItem component={NavLink} to="/profile">
           <ListItemButton>
             <ListItemIcon>
@@ -121,7 +121,7 @@ export const Header: React.FC = () => {
   const anchor = "top";
 
   return (
-    <header className="bg-gradient-to-r from-[#1B5E20] to-[#1565C0] rounded-bl-2xl rounded-br-2xl min-h-12 flex justify-between px-2 py-2 items-center shadow-md md:px-8">
+    <header className="bg-gradient-to-r from-primary-700 to-secondary-700 rounded-bl-2xl rounded-br-2xl min-h-12 flex justify-between px-2 py-2 items-center shadow-md md:px-8">
       <div className="flex items-center gap-1 md:gap-2">
         <Link to="/">
           <img
@@ -136,7 +136,7 @@ export const Header: React.FC = () => {
             className="rounded-full shadow-xs hover:scale-110 transition-transform duration-300 ease-in-out drop-shadow-2xl"
           />
         </Link>
-        <h1 className="drop-shadow-3xl font-special text-warn-100 text-[1.7rem] pt-2 ">
+        <h1 className="drop-shadow-3xl font-special text-neutral-50 text-[1.7rem] pt-2 ">
           FunStats
         </h1>
       </div>
@@ -152,7 +152,7 @@ export const Header: React.FC = () => {
           <>
             <button
               onClick={toggleDrawer(anchor, true)}
-              className="bg-green-600 rounded-full p-1"
+              className="bg-primary-700 text-neutral-50 rounded-full p-1 shadow-sm"
             >
               {state.menuOpen ? <MenuOpenIcon /> : <MenuIcon />}
             </button>
@@ -171,20 +171,23 @@ export const Header: React.FC = () => {
             </SwipeableDrawer>
           </>
         ) : (
-          <NavLink to="/login" className="p-1 bg-green-600 rounded-full">
-            <LoginIcon className="bg-green-600 rounded-full" />
+          <NavLink
+            to="/login"
+            className="p-1 bg-primary-700 text-neutral-50 rounded-full shadow-sm"
+          >
+            <LoginIcon className="rounded-full" />
           </NavLink>
         )}
       </div>
 
       {/* Desktop Menu */}
-      <div className="hidden md:flex gap-2 items-center font-special ">
+      <div className="hidden md:flex gap-3 items-center font-special text-neutral-50 ">
         <ThemeToggle
           darkIcon={<DarkModeIcon className="w-4 h-4" />}
           lightIcon={<LightModeIcon className="w-4 h-4" />}
         />
         {isAuthenticated ? (
-          <div className="flex items-center gap-4 bg-warn-100 bg-clip-text text-transparent drop-shadow-2xl text-lg font-bold font-special">
+          <div className="flex items-center gap-4 text-lg font-bold font-special">
             <>
               <NavLink
                 to={`/profile`}
@@ -192,8 +195,8 @@ export const Header: React.FC = () => {
                   `px-1 rounded-md transition-colors duration-200 
                    ${
                      isActive
-                       ? "dark:bg-green-600 text-white"
-                       : "hover:text-white"
+                       ? "bg-primary-700 text-neutral-50"
+                       : "hover:text-neutral-50"
                    }`
                 }
               >
@@ -203,7 +206,11 @@ export const Header: React.FC = () => {
                 to={`/stats`}
                 className={({ isActive }) =>
                   `px-1 rounded-md transition-colors duration-200 
-                   ${isActive ? "bg-green-600 text-white" : "hover:text-white"}`
+                   ${
+                     isActive
+                       ? "bg-primary-700 text-neutral-50"
+                       : "hover:text-neutral-50"
+                   }`
                 }
               >
                 Stats
@@ -212,7 +219,11 @@ export const Header: React.FC = () => {
                 to={`/friends`}
                 className={({ isActive }) =>
                   `px-1 rounded-md transition-colors duration-200 
-                   ${isActive ? "bg-green-600 text-white" : "hover:text-white"}`
+                   ${
+                     isActive
+                       ? "bg-primary-700 text-neutral-50"
+                       : "hover:text-neutral-50"
+                   }`
                 }
               >
                 Friends
@@ -229,8 +240,8 @@ export const Header: React.FC = () => {
                     `px-2 py-1 rounded-md transition-colors duration-200 
                    ${
                      isActive
-                       ? "bg-green-600 text-white"
-                       : "text-warn-100 hover:text-white"
+                       ? "bg-primary-700 text-neutral-50"
+                       : "hover:text-neutral-50"
                    }`
                   }
                 >
@@ -243,7 +254,7 @@ export const Header: React.FC = () => {
             </>
           </div>
         ) : (
-          <div className="text-accent-100">
+          <div className="text-neutral-50">
             <NavLink
               to={"/login"}
               className=""

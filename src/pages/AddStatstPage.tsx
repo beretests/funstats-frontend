@@ -286,15 +286,15 @@ const AddStatstPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-info-300">Add new game stats</h1>
+    <div className="page-shell space-y-4">
+      <h1 className="section-title">Add new game stats</h1>
       {isLoading ? (
         <div className="flex justify-center items-center h-[70vh]">
           <CircularProgress />
         </div>
       ) : (
         <>
-          <div className="p-4">
+          <div className="surface-card p-4">
             <Grid container spacing={4}>
               <Grid size={{ xs: 12, md: 4, sm: 6, lg: 3 }}>
                 <DatePicker
@@ -304,7 +304,12 @@ const AddStatstPage: React.FC = () => {
                   slotProps={{
                     textField: { fullWidth: true },
                     layout: {
-                      sx: { color: "#bbdefb", backgroundColor: "#0d47a1" },
+                      sx: {
+                        color: "var(--color-neutral-900)",
+                        backgroundColor: "var(--color-neutral-100)",
+                        borderRadius: "8px",
+                        px: 1,
+                      },
                     },
                   }}
                   disableFuture
@@ -351,7 +356,7 @@ const AddStatstPage: React.FC = () => {
               ))}
             </Grid>
           </div>
-          <div className="p-4 flex flex-col justify-center items-center gap-4">
+          <div className="surface-card p-4 flex flex-col justify-center items-center gap-4">
             <Grid container spacing={2}>
               {Object.keys(initialStats).map((key) => (
                 <Grid size={{ xs: 6, md: 3, sm: 4, lg: 2 }} key={key}>

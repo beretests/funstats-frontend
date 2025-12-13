@@ -125,9 +125,9 @@ const Login: React.FC = () => {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="max-w-md mx-4 mt-4 p-4 bg-ok-700/80 shadow-lg rounded-lg"
+          className="max-w-md mx-4 mt-4 p-6 surface-card text-neutral-900 dark:text-neutral-50"
         >
-          <h2 className="text-2xl font-bold font-special mb-4 text-center">
+          <h2 className="section-title mb-4 text-center">
             {isSignUp ? "Sign Up" : "Login"}
           </h2>
           {isSignUp ? (
@@ -189,12 +189,9 @@ const Login: React.FC = () => {
                     onMouseDown={handleMouseDownPassword}
                     onMouseUp={handleMouseUpPassword}
                     edge="end"
+                    className="!text-primary-800 dark:!text-primary-200 hover:!text-primary-900 dark:hover:!text-primary-100"
                   >
-                    {showPassword ? (
-                      <VisibilityOff className="!text-ok-200" />
-                    ) : (
-                      <Visibility className="!text-ok-200" />
-                    )}
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               }
@@ -217,7 +214,10 @@ const Login: React.FC = () => {
               />
             </FormControl>
           )}
-          <button type="submit" className="button w-full p-2">
+          <button
+            type="submit"
+            className="button w-full p-2 !bg-primary-800 hover:!bg-primary-900 text-neutral-50"
+          >
             {isSignUp ? "Sign Up" : "Login"}
           </button>
           <p className="mt-4 text-center font-special">
@@ -226,7 +226,7 @@ const Login: React.FC = () => {
                 Already have an account?{" "}
                 <button
                   onClick={() => setIsSignUp(false)}
-                  className="text-accent-100 underline hover:text-accent-50"
+                  className="text-primary-900 font-semibold underline hover:text-primary-800 dark:text-primary-200 dark:hover:text-primary-100"
                 >
                   Login
                 </button>
@@ -236,7 +236,7 @@ const Login: React.FC = () => {
                 Don't have an account?{" "}
                 <button
                   onClick={() => setIsSignUp(true)}
-                  className="text-accent-100 underline hover:text-accent-50"
+                  className="text-primary-900 font-semibold underline hover:text-primary-800 dark:text-primary-200 dark:hover:text-primary-100"
                 >
                   Sign Up
                 </button>

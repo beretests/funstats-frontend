@@ -19,14 +19,14 @@ const SelectSeason: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center gap-4 min-h-[90vh] mt-0 py-0 px-8">
+    <div className="flex flex-col justify-center gap-4 min-h-[70vh] px-4 md:px-8">
       {isLoading ? (
         <div className="flex justify-center items-center h-[90vh]">
           <CircularProgress />
         </div>
       ) : (
         <>
-          <h1 className="text-info-300">Select a season to view your stats </h1>
+          <h1 className="section-title">Select a season to view your stats </h1>
           <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
             <InputLabel id="season-list-label">Season</InputLabel>
             <Select

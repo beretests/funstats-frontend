@@ -10,11 +10,9 @@ const SelectSeasonPage: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <div>
-        <SelectSeason />
-      </div>
-    </>
+    <div className="page-shell">
+      <SelectSeason />
+    </div>
   );
 };
 
